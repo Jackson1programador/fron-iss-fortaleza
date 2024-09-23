@@ -1,0 +1,14 @@
+$tablet-with: 700px;
+$smartphone-with: 450px;
+
+@mixin tablet {
+  @media (max-width: #{$tablet-with}){
+    @content;
+  }
+}
+
+@mixin smartphone {
+  @media (max-width: #{$smartphone-with}){
+    @content;
+  }
+}
