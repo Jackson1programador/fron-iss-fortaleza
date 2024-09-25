@@ -10,6 +10,8 @@ import { ErroComponent } from './pages/erro/erro.component';
 import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { MenuComponent } from './shared/menu/menu.component';
 import { RodapeComponent } from './shared/rodape/rodape.component';
+import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
+import { ContatoComponent } from './pages/contato/contato.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { RodapeComponent } from './shared/rodape/rodape.component';
     ErroComponent,
     CadastroComponent,
     MenuComponent,
-    RodapeComponent
+    RodapeComponent,
+    RecuperarSenhaComponent,
+    ContatoComponent
   ],
   imports: [
     BrowserModule,

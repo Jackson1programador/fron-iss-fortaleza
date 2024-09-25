@@ -1,0 +1,69 @@
+@import "../../CSS/app.scss";
+
+.body-contato{
+  width: 1000px;
+  height: 450px;
+  background-color: $color-background-login;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+}
+
+.body-content-video{
+  width: 100%;
+  height: 90%;
+  display: flex;
+}
+
+.body-voltar-login{
+  width: 100%;
+  height: 10%;
+
+}
+
+
+.body-content{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.bloco-informacao{
+  margin: auto;
+}
+
+h1{
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: $color-letter-login-lght;
+}
+p{
+  padding: 10px;
+}
+
+.body-video{
+  width: 50%;
+  height: 100%;
+  display: flex;
+}
+
+iframe{
+  margin: auto;
+
+}
+
+a{
+  margin: 10px;
+  text-decoration: none;
+  color: $color-letter-login-lght;
+  font-weight: bold;
+  border-radius: 100px;
+  padding: 10px 30px;
+  background-color: $color-button-login;
+}
+
+a:hover{
+  opacity: 0.8;
+}
