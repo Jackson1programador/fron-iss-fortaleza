@@ -13,6 +13,8 @@ import { RodapeComponent } from './shared/rodape/rodape.component';
 import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
 import { ContatoComponent } from './pages/contato/contato.component';
 
+import {HttpClientModule} from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +30,7 @@ import { ContatoComponent } from './pages/contato/contato.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],
