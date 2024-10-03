@@ -1,0 +1,20 @@
+@import "../../CSS/app.scss";
+
+.body-home {
+  background: $color-background-home;
+  width: 95vw;
+  height: 75vh;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.heder{
+  width: 95vw;
+  height: 10vh;
+}
+
+.content{
+  width: 95vw;
+  height: 65vh;
+}

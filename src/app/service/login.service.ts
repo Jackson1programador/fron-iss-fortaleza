@@ -1,4 +1,4 @@
-import { usuario } from './../interface/Usuario';
+import { Usuario } from './../interface/Usuario';
 import { EventEmitter, Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
 
@@ -16,7 +16,7 @@ export class LoginService {
   public emitEventGetUsuarios = new EventEmitter();
 
 
-  getAll(): Observable<Array<usuario>> {
-    return this.http.get<Array<usuario>>(this.apiUrl)
+  getAll(): Observable<Array<Usuario>> {
+    return this.http.get<Array<Usuario>>(this.apiUrl)
   }
 }

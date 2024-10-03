@@ -2,13 +2,16 @@
 <div class="body-formulario">
 
   <form action="" class="formulario">
+
+    <p *ngIf="menssagemDeErroDeLogin" class="mensagem-erro-login">**Login ou senha inválida!!**</p>
+
     <label for="login" class="label label-login">Login</label>
-    <input type="text" placeholder="digite seu login" id="login" class="input input-login">
+    <input [(ngModel)]="loginDigitado" name= "login" type="text" placeholder="digite seu login" id="login" class="input input-login">
 
     <label for="senha" class="label label-senha"></label>
-    <input type="password" placeholder="digite sua senha" id="senha" class="input input-senha">
+    <input [(ngModel)]="senhaDigitada" name= "senha" type="password" placeholder="digite sua senha" id="senha" class="input input-senha">
 
-    <button class="button">Enviar</button>
+    <button (click)="logar()" class="button">Enviar</button>
   </form>
 
   <a href="\recuperar-senha" class="link esqueceu-minha-senha">Esqueceu sua senha</a>
