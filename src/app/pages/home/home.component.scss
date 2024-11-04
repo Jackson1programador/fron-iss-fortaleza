@@ -7,14 +7,258 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  font-family: Arial, sans-serif;
 }
 
-.heder{
+
+.filtro{
   width: 95vw;
   height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #f1f1f1;
+  border-radius: 50px;  /* Bordas arredondadas */
+  padding: 2px;
+  max-width: 400px;     /* Largura máxima */
+  width: 100%;          /* Responsivo */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+}
+
+.search-input {
+  flex-grow: 1;           /* Faz o input crescer dentro do contêiner */
+  border: none;           /* Remove borda padrão */
+  border-radius: 50px;    /* Bordas arredondadas */
+  padding: 4px 15px;     /* Espaçamento interno */
+  font-size: 16px;        /* Tamanho da fonte */
+  background-color: transparent;
+  outline: none;          /* Remove o outline no foco */
+}
+
+.search-button {
+  background-color: #6200ea; /* Cor de fundo moderna */
+  border: none;              /* Remove borda */
+  padding: 4px;
+  border-radius: 50%;        /* Botão circular */
+  cursor: pointer;           /* Mostra que é clicável */
+  transition: background-color 0.3s ease;  /* Transição suave */
+}
+
+.search-icon {
+  color: white;              /* Cor do ícone */
+  font-size: 18px;           /* Tamanho do ícone */
+}
+
+.search-input:focus {
+  background-color: #fff;     /* Muda o fundo ao focar */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra maior ao focar */
+}
+
+.search-button:hover {
+  background-color: #3700b3;  /* Cor do botão muda no hover */
+}
+
+
+.button-filter {
+  background: linear-gradient(45deg, #6200ea, #3700b3); /* Gradiente de fundo */
+  color: white; /* Cor do texto */
+  border: none; /* Sem borda */
+  border-radius: 8px; /* Bordas arredondadas */
+  padding: 15px 30px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  cursor: pointer; /* Muda o cursor ao passar por cima */
+  transition: all 0.3s ease; /* Transição suave para efeitos */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra do botão */
+  margin: 0 10px;
+}
+
+/* Efeito de hover */
+.button-filter:hover {
+  background: linear-gradient(45deg, #3700b3, #6200ea); /* Inverte o gradiente no hover */
+  transform: translateY(-3px); /* Levanta o botão um pouco */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Aumenta a sombra */
+}
+
+/* Efeito de foco */
+.button-filter:focus {
+  outline: none; /* Remove a borda de foco padrão */
+  box-shadow: 0 0 0 4px rgba(98, 0, 234, 0.5); /* Sombra de foco */
+}
+
+.input{
+  margin: 10px;
+}
+
+.ordenação{
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 .content{
   width: 95vw;
   height: 65vh;
+  overflow: auto;
+}
+
+.content::-webkit-scrollbar {
+  width: 14px; /* Define a largura da barra de rolagem */
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: #6200ea; /* Cor do polegar */
+  border-radius: 10px; /* Deixa o polegar arredondado */
+  border: 3px solid #f1f1f1; /* Adiciona uma borda ao polegar para dar um efeito "flutuante" */
+}
+
+table {
+  width: 99%;
+  border-collapse: collapse;
+  margin: auto;
+
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  text-align: center;
+}
+
+th {
+  background-color: #a19e9e;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+button{
+  border: none;
+  border-radius: 5px;
+  padding: 2px 10px;
+}
+
+button[data-status="sucesso"] {
+  background-color: $color-sucesso;
+  color: black;
+}
+
+button[data-status="processando"] {
+  background-color: $color-processando;
+  color: black;
+}
+
+button[data-status="erro"] {
+  background-color: $color-erro;
+  color: black;
+}
+
+button[data-status="pendente"] {
+  background-color: $color-pendente;
+  color: black;
+}
+
+button[data-status="não processa"] {
+  background-color: $color-nao-processa;
+  color: black;
+}
+
+tr:hover{
+  background-color: rgb(145, 145, 189);
+}
+
+
+
+.button-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: rgb(223, 133, 223);
+}
+
+.button-icon:hover{
+  background-color: rgb(232, 54, 232);
+}
+
+mat-icon {
+  color: rgb(87, 16, 231);
+  font-size: 20px;
+  margin: auto;
+}
+
+thead th {
+  position: sticky;  /* Torna o cabeçalho "grudado" no topo */
+  top: 0;            /* Fixa o cabeçalho no topo do contêiner */
+  z-index: 2;        /* Garante que o cabeçalho fique sobre as células do corpo */
+  padding: 10px;
+
+
+}
+
+
+.central-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Para garantir que ficará sobre outros elementos */
+  border-radius: 8px;
+}
+
+.content-atividade {
+  text-align: center;
+}
+
+.content-situacao {
+  text-align: start;
+  width: 150px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+//butao do fechar checbox
+.checkbox-button {
+  background: linear-gradient(45deg, #6200ea, #3700b3); /* Gradiente de fundo */
+  color: white; /* Cor do texto */
+  border: none; /* Sem borda */
+  border-radius: 8px; /* Bordas arredondadas */
+  padding: 7px 15px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  cursor: pointer; /* Muda o cursor ao passar por cima */
+  transition: all 0.3s ease; /* Transição suave para efeitos */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra do botão */
+  margin: 0 10px;
+}
+
+/* Efeito de hover */
+.checkbox-button:hover {
+  background: linear-gradient(45deg, #3700b3, #6200ea); /* Inverte o gradiente no hover */
+  //transform: translateY(-3px); /* Levanta o botão um pouco */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Aumenta a sombra */
+}
+
+/* Efeito de foco */
+.checkbox-button:focus {
+  outline: none; /* Remove a borda de foco padrão */
+  box-shadow: 0 0 0 4px rgba(98, 0, 234, 0.5); /* Sombra de foco */
+}
+
+.disabled {
+  text-decoration: line-through;
+  color: red;
 }

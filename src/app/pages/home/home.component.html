@@ -1,9 +1,75 @@
 <div class="body-home">
-  <div class="heder">
+    <div class="filtro">
 
-  </div>
+      <div class="input">
+        <div class="search-container">
+          <input type="text" placeholder="Pesquise por nome" class="search-input"  (input)="filtraEmpresaPorNome($event)">
+          <button class="search-button"><mat-icon class="search-icon">search</mat-icon></button>
+        </div>
+      </div>
+
+      <h1>07/2024</h1>
+
+      <div class="ordenação">
+        <button class="button-filter" (click)="ativarSituacao()" (click)="$event.stopPropagation()">Situação</button>
+      </div>
+
+    </div>
+
+
+
+
   <div class="content">
 
+    <table>
+      <thead>
+        <tr>
+          <th>CNPJ</th>
+          <th>Nome</th>
+          <th>Enviar</th>
+          <th>Editar</th>
+          <th>Situação</th>
+          <th>Email</th>
+          <th>Guia</th>
+          <th>Encerramento</th>
+          <th>Aceites</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let empresa of empresasFront">
+          <td> {{empresa.cnpj}}</td>
+          <td> {{empresa.nome}}</td>
+          <td> <button mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>send</mat-icon></button></td>
+          <td> <button mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>edit</mat-icon></button></td>
+          <td> <button [attr.data-status]="empresa.situacao" >{{empresa.situacao}}</button></td>
+          <td> <button [attr.data-status]="empresa.email">{{empresa.email}}</button></td>
+          <td> <button [attr.data-status]="empresa.guia">{{empresa.guia}}</button></td>
+          <td> <button [attr.data-status]="empresa.encerramento">{{empresa.encerramento}}</button></td>
+          <td> <button [attr.data-status]="empresa.aceites">{{empresa.aceites}}</button></td>
+        </tr>
+      </tbody>
+    </table>
+
   </div>
+
+
+  <div *ngIf="showContainerSituacao" class="central-container">
+    <div class="content-situacao">
+
+      <div *ngFor="let situacao of situacoes">
+        <input
+          type="checkbox"
+          [id]="situacao"
+          [value]="situacao"
+          (change)="onCheckboxChange($event)"
+          [checked]="situacoesSelecionadas.includes(situacao)"
+          >
+        <label [for]="situacao" [class.disabled]="!isCheckboxEnabled(situacao)">{{ situacao }}</label>
+      </div>
+
+      <button class="checkbox-button" (click)="desativarSituacao()">Fechar</button>
+    </div>
+  </div>
+
 
 </div>

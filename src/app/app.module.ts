@@ -15,6 +15,8 @@ import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha
 import { ContatoComponent } from './pages/contato/contato.component';
 
 import {HttpClientModule} from '@angular/common/http';
+import {MatIconModule} from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,8 +34,10 @@ import {HttpClientModule} from '@angular/common/http';
   imports: [
     BrowserModule,
     HttpClientModule,
+    MatIconModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
