@@ -8,7 +8,17 @@
         </div>
       </div>
 
-      <h1>07/2024</h1>
+      <div>
+        <label class="label-select" for="competencias"></label>
+        <div class="custom-select">
+          <select id="competencias" name="competencias" [(ngModel)]="competenciaSelecionada">
+            <!-- Use *ngFor para iterar sobre as competências -->
+            <option *ngFor="let competencia of competencias" [value]="competencia.valor">
+              {{ competencia.texto }}
+            </option>
+          </select>
+        </div>
+      </div>
 
       <div class="ordenação">
         <button class="button-filter" (click)="ativarSituacao()" (click)="$event.stopPropagation()">Situação</button>
@@ -39,7 +49,7 @@
         <tr *ngFor="let empresa of empresasFront">
           <td> {{empresa.cnpj}}</td>
           <td> {{empresa.nome}}</td>
-          <td> <button mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>send</mat-icon></button></td>
+          <td> <button (click)="abrirModal(empresa)" mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>send</mat-icon></button></td>
           <td> <button mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>edit</mat-icon></button></td>
           <td> <button [attr.data-status]="empresa.situacao" >{{empresa.situacao}}</button></td>
           <td> <button [attr.data-status]="empresa.email">{{empresa.email}}</button></td>
@@ -70,6 +80,40 @@
       <button class="checkbox-button" (click)="desativarSituacao()">Fechar</button>
     </div>
   </div>
+
+
+<!-- Modal container para iniciar encerramento -->
+<div *ngIf="modalAberto" class="modal-overlay">
+  <div class="modal-container">
+    <h2 class="titulo-modal-encerramento">Iniciar o encerramento?</h2>
+
+    <p class="margin-bottom"><strong class="strong">Competência:</strong> {{ competenciaSelecionada }}</p>
+    <p class="margin-bottom"><strong class="strong">Empresa:</strong> {{ nomeEmpresa }}</p>
+    <p class="margin-bottom"><strong class="strong">CNPJ:</strong> {{ cnpjEmpresa }}</p>
+
+    <div class="modal-buttons">
+      <button class="btn-encerrar" (click)="encerrar()">Encerrar</button>
+      <button class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="modalAbertoDoQueNaoPodeEncerrar" class="modal-overlay">
+  <div class="modal-container">
+    <h2 class="titulo-modal-encerramento titulo-erro">{{ 'A empresa está com a situação ' + situacaoEmpresa + ' por isso não po ser encerrada'}} </h2>
+
+    <p class="margin-bottom"><strong class="strong">Competência:</strong> {{ competenciaSelecionada }}</p>
+    <p class="margin-bottom"><strong class="strong">Empresa:</strong> {{ nomeEmpresa }}</p>
+    <p class="margin-bottom"><strong class="strong">CNPJ:</strong> {{ cnpjEmpresa }}</p>
+
+    <div class="modal-buttons">
+      <button class="btn-cancelar" (click)="fecharModalDoQueNaoPodeEncerrar()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+
 
 
 </div>

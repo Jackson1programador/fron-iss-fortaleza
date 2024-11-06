@@ -188,6 +188,7 @@ tr:hover{
 
 .button-icon:hover{
   background-color: rgb(232, 54, 232);
+  cursor: pointer;
 }
 
 mat-icon {
@@ -260,5 +261,132 @@ thead th {
 
 .disabled {
   text-decoration: line-through;
+  color: red;
+}
+
+
+// **************Select*****************
+
+.label-select {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+}
+
+select {
+  width: 100px;
+  padding: 10px;
+  border: 2px solid #6200ea;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+  appearance: none; /* Remove a seta padrão do select */
+  -webkit-appearance: none; /* Para Safari */
+  -moz-appearance: none; /* Para Firefox */
+}
+
+.custom-select::after {
+  content: '▼'; /* Símbolo de seta */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 14px;
+  color: #6200ea;
+}
+
+/* Estilos adicionais de hover e foco */
+select:hover, select:focus {
+  border-color: #3700b3;
+  outline: none;
+}
+
+select:focus {
+  box-shadow: 0 0 0 4px rgba(98, 0, 234, 0.3);
+}
+
+
+/* Estilos do modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.btn-encerrar, .btn-cancelar {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-encerrar {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-encerrar:hover {
+  background-color: #45a049;
+}
+
+.btn-cancelar {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-cancelar:hover {
+  background-color: #d32f2f;
+}
+
+.titulo-modal-encerramento{
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.strong{
+  font-weight: bold;
+}
+
+.margin-bottom {
+  margin-bottom: 10px;
+}
+
+.titulo-erro {
   color: red;
 }

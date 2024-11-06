@@ -14,6 +14,23 @@ export class HomeComponent implements OnInit {
 
   public showContainerAtividade: boolean = false;
   public showContainerSituacao: boolean = false;
+  public modalAberto: boolean = false;
+  public modalAbertoDoQueNaoPodeEncerrar: boolean = false;
+
+  competencias = [
+    { valor: '01/2024', texto: '01/2024' },
+    { valor: '02/2024', texto: '02/2024' },
+    { valor: '03/2024', texto: '03/2024' }
+  ];
+
+  nomeEmpresa: string = "";
+  cnpjEmpresa: string = "";
+  situacaoEmpresa: string = "";
+
+  // Variável para armazenar a competência selecionada
+  competenciaSelecionada: string = '';
+
+
 
   situacoes: string[] = ['sucesso', 'pendente', 'erro', 'processando'];
   situacoesSelecionadas: string[] = [...this.situacoes];
@@ -75,7 +92,36 @@ export class HomeComponent implements OnInit {
     return this.empresasCheckboxMarcada.some(empresa => empresa.situacao === situacao);
   }
 
+  abrirModal(empresa: any) {
+    this.nomeEmpresa = empresa.nome
+    this.cnpjEmpresa = empresa.cnpj
+    this.situacaoEmpresa = empresa.situacao
+    //fazer a logica pra so encerrar se tiver pendente ou com erro
+    if(empresa.situacao == "pendente" || empresa.situacao == "erro"){
+      this.modalAberto = true;
+    } else {
+      this.modalAbertoDoQueNaoPodeEncerrar = true
+    }
+  }
+
+  fecharModal() {
+    this.modalAberto = false;
+  }
+  fecharModalDoQueNaoPodeEncerrar() {
+    this.modalAbertoDoQueNaoPodeEncerrar = false
+  }
+
+  encerrar() {
+    // Lógica para encerrar
+    alert('Encerramento iniciado!');
+    this.fecharModal();
+  }
+
   ngOnInit(): void {
+
+    this.competenciaSelecionada = this.competencias[this.competencias.length - 1].valor;
+
+
     let empresa1: EmpresaParaHome = { id: 1, cnpj: "123123123123", nome: "fulando de tal", situacao: "sucesso", email: "sucesso", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" };
     let empresa2: EmpresaParaHome = { id: 2, cnpj: "123123123123", nome: "toinaha variedade", situacao: "processando", email: "processando", guia: "processando", encerramento: "sucesso", aceites: "sucesso" };
     let empresa3: EmpresaParaHome = { id: 3, cnpj: "123123123123", nome: "aviao de tal", situacao: "erro", email: "erro", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" };
