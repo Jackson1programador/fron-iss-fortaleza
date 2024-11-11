@@ -117,6 +117,11 @@ export class HomeComponent implements OnInit {
     this.fecharModal();
   }
 
+  editarEmpresa(empresa: any) {
+    console.log(empresa)
+     // Lógica para editar
+  }
+
   ngOnInit(): void {
 
     this.competenciaSelecionada = this.competencias[this.competencias.length - 1].valor;

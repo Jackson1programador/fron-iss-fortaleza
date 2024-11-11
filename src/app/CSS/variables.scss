@@ -1,9 +1,41 @@
 //color
-$color-letter-login-lght: rgb(241, 241, 249);
+//login
+$color-letter-login-lght: rgb(241, 241, 249); /* quando for fazer alteracao de cor, deixa o original comentado*/
 $color-button-login: rgb(53, 53, 77);
 $color-background-login: aquamarine;
-$color-erro: rgb(176, 10, 10);
+
+//home
 $color-background-home: aquamarine;
+$color-background-search-container: #f1f1f1;
+$color-background-search-buttons: #6200ea;
+$color-search-icon: white;
+$color-search-input-focus: #fff;
+$color-search-button-hove: #3700b3;
+$color-button-filter-text: white;
+$color-button-situacao-text: white;
+$color-polegar: #6200ea;
+$color-cabecario-table: #a19e9e;
+$color-linha-table-alternada: #f9f9f9;
+$color-linha-table-hover: rgb(145, 145, 189);
+$color-icon-table: rgb(87, 16, 231);
+$color-background-container-situacao: white;
+$color-disabled-text: red;
+$color-background-button-checkbox-inicial: #6200ea;
+$color-background-button-checkbox-final: #3700b3;
+$color-border-select: #6200ea;
+$color-background-select: #f9f9f9;
+$color-text-select: #333;
+$color-simobolo-select: #6200ea;
+$color-border-button-select: #3700b3;
+$color-background-container-modal: white;
+$color-background-button-encerrar: #4CAF50;
+$color-background-button-encerrar-hover: #45a049;
+$color-background-button-cancelar: #f44336;
+$color-background-button-cancelar-hover: #d32f2f;
+$color-text-button-modal: white;
+$color-text-titulo-modal: red;
+
+
 
 
 

@@ -50,7 +50,7 @@
           <td> {{empresa.cnpj}}</td>
           <td> {{empresa.nome}}</td>
           <td> <button (click)="abrirModal(empresa)" mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>send</mat-icon></button></td>
-          <td> <button mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>edit</mat-icon></button></td>
+          <td> <button (click)="editarEmpresa(empresa)"mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>edit</mat-icon></button></td>
           <td> <button [attr.data-status]="empresa.situacao" >{{empresa.situacao}}</button></td>
           <td> <button [attr.data-status]="empresa.email">{{empresa.email}}</button></td>
           <td> <button [attr.data-status]="empresa.guia">{{empresa.guia}}</button></td>

@@ -23,7 +23,7 @@
 .search-container {
   display: flex;
   align-items: center;
-  background-color: #f1f1f1;
+  background-color: $color-background-search-container;
   border-radius: 50px;  /* Bordas arredondadas */
   padding: 2px;
   max-width: 400px;     /* Largura máxima */
@@ -42,7 +42,7 @@
 }
 
 .search-button {
-  background-color: #6200ea; /* Cor de fundo moderna */
+  background-color: $color-background-search-buttons; /* Cor de fundo moderna */
   border: none;              /* Remove borda */
   padding: 4px;
   border-radius: 50%;        /* Botão circular */
@@ -51,23 +51,23 @@
 }
 
 .search-icon {
-  color: white;              /* Cor do ícone */
+  color: $color-search-icon;           /* Cor do ícone */
   font-size: 18px;           /* Tamanho do ícone */
 }
 
 .search-input:focus {
-  background-color: #fff;     /* Muda o fundo ao focar */
+  background-color: $color-search-input-focus;     /* Muda o fundo ao focar */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra maior ao focar */
 }
 
 .search-button:hover {
-  background-color: #3700b3;  /* Cor do botão muda no hover */
+  background-color: $color-search-button-hove;  /* Cor do botão muda no hover */
 }
 
 
 .button-filter {
   background: linear-gradient(45deg, #6200ea, #3700b3); /* Gradiente de fundo */
-  color: white; /* Cor do texto */
+  color: $color-button-filter-text; /* Cor do texto */
   border: none; /* Sem borda */
   border-radius: 8px; /* Bordas arredondadas */
   padding: 15px 30px; /* Espaçamento interno */
@@ -112,7 +112,7 @@
 }
 
 .content::-webkit-scrollbar-thumb {
-  background-color: #6200ea; /* Cor do polegar */
+  background-color: $color-polegar; /* Cor do polegar */
   border-radius: 10px; /* Deixa o polegar arredondado */
   border: 3px solid #f1f1f1; /* Adiciona uma borda ao polegar para dar um efeito "flutuante" */
 }
@@ -131,11 +131,11 @@ th, td {
 }
 
 th {
-  background-color: #a19e9e;
+  background-color: $color-cabecario-table;
 }
 
 tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: $color-linha-table-alternada;
 }
 
 
@@ -171,7 +171,7 @@ button[data-status="não processa"] {
 }
 
 tr:hover{
-  background-color: rgb(145, 145, 189);
+  background-color: $color-linha-table-hover;
 }
 
 
@@ -192,7 +192,7 @@ tr:hover{
 }
 
 mat-icon {
-  color: rgb(87, 16, 231);
+  color: $color-icon-table;
   font-size: 20px;
   margin: auto;
 }
@@ -212,7 +212,7 @@ thead th {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: $color-background-container-situacao;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000; /* Para garantir que ficará sobre outros elementos */
@@ -234,8 +234,8 @@ thead th {
 
 //butao do fechar checbox
 .checkbox-button {
-  background: linear-gradient(45deg, #6200ea, #3700b3); /* Gradiente de fundo */
-  color: white; /* Cor do texto */
+  background: linear-gradient(45deg, $color-background-button-checkbox-inicial, $color-background-button-checkbox-final); /* Gradiente de fundo */
+  color: $color-button-situacao-text; /* Cor do texto */
   border: none; /* Sem borda */
   border-radius: 8px; /* Bordas arredondadas */
   padding: 7px 15px; /* Espaçamento interno */
@@ -248,7 +248,7 @@ thead th {
 
 /* Efeito de hover */
 .checkbox-button:hover {
-  background: linear-gradient(45deg, #3700b3, #6200ea); /* Inverte o gradiente no hover */
+  background: linear-gradient(45deg, $color-background-button-checkbox-final, $color-background-button-checkbox-inicial); /* Inverte o gradiente no hover */
   //transform: translateY(-3px); /* Levanta o botão um pouco */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Aumenta a sombra */
 }
@@ -261,7 +261,7 @@ thead th {
 
 .disabled {
   text-decoration: line-through;
-  color: red;
+  color: $color-disabled-text;
 }
 
 
@@ -285,10 +285,10 @@ thead th {
 select {
   width: 100px;
   padding: 10px;
-  border: 2px solid #6200ea;
+  border: 2px solid $color-border-select;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: $color-background-select;
+  color: $color-text-select;
   font-size: 16px;
   cursor: pointer;
   appearance: none; /* Remove a seta padrão do select */
@@ -304,12 +304,12 @@ select {
   transform: translateY(-50%);
   pointer-events: none;
   font-size: 14px;
-  color: #6200ea;
+  color: $color-simobolo-select;
 }
 
 /* Estilos adicionais de hover e foco */
 select:hover, select:focus {
-  border-color: #3700b3;
+  border-color: $color-border-button-select;
   outline: none;
 }
 
@@ -333,7 +333,7 @@ select:focus {
 }
 
 .modal-container {
-  background-color: white;
+  background-color: $color-background-container-modal;
   padding: 20px;
   border-radius: 10px;
   width: 400px;
@@ -356,21 +356,21 @@ select:focus {
 }
 
 .btn-encerrar {
-  background-color: #4CAF50;
-  color: white;
+  background-color: $color-background-button-encerrar;
+  color: $color-text-button-modal;
 }
 
 .btn-encerrar:hover {
-  background-color: #45a049;
+  background-color: $color-background-button-encerrar-hover;
 }
 
 .btn-cancelar {
-  background-color: #f44336;
-  color: white;
+  background-color: $color-background-button-cancelar;
+  color: $color-text-button-modal;
 }
 
 .btn-cancelar:hover {
-  background-color: #d32f2f;
+  background-color: $color-background-button-cancelar-hover;
 }
 
 .titulo-modal-encerramento{
@@ -388,5 +388,5 @@ select:focus {
 }
 
 .titulo-erro {
-  color: red;
+  color: $color-text-titulo-modal;
 }
