@@ -1,1 +1,61 @@
-<p>cadastro works!</p>
+<div class="body-cadastro">
+  <div class="tabs">
+    <!-- Abas -->
+    <div class="tab" (click)="selecionarAba('aba1')" [class.active]="abaAtiva === 'aba1'">Alterar Senha</div>
+    <div class="tab" (click)="selecionarAba('aba2')" [class.active]="abaAtiva === 'aba2'">Cadastro Empresa</div>
+    <div class="tab" (click)="selecionarAba('aba3')" [class.active]="abaAtiva === 'aba3'">Cadastro Outros Execultores</div>
+  </div>
+
+  <div class="conteudo" *ngIf="abaAtiva === 'aba1'">
+    <div class="password-update-container">
+      <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+        <mat-card class="password-card">
+          <mat-card-title id="title-alterar-senha">Atualizar Senha</mat-card-title>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Senha Atual</mat-label>
+            <input matInput [type]="hideCurrentPassword ? 'password' : 'text'" formControlName="currentPassword">
+            <button type="button" mat-icon-button matSuffix (click)="hideCurrentPassword = !hideCurrentPassword">
+              <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          <!--   <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">Senha atual é obrigatória</mat-error> -->
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nova Senha</mat-label>
+            <input matInput [type]="hideNewPassword ? 'password' : 'text'" formControlName="newPassword">
+            <button type="button" mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword">
+              <mat-icon>{{ hideNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          <!--   <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('required')">Nova senha é obrigatória</mat-error> -->
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirmar Nova Senha</mat-label>
+            <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword">
+            <button type="button" mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+              <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          <!--   <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('required')">Confirme sua nova senha</mat-error> -->
+          <!--   <mat-error *ngIf="passwordForm.hasError('passwordsDontMatch')">As senhas não coincidem</mat-error> -->
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" [disabled]="passwordForm.invalid" [attr.id]="!passwordForm.invalid ? 'btn-alterar-senha' : null" >Atualizar Senha</button>
+        </mat-card>
+      </form>
+    </div>
+
+
+  </div>
+
+  <div class="conteudo" *ngIf="abaAtiva === 'aba2'">
+    <p>Conteúdo da Aba 2</p>
+  </div>
+
+  <div class="conteudo" *ngIf="abaAtiva === 'aba3'">
+    <p>Conteúdo da Aba 3</p>
+  </div>
+
+
+
+</div>
