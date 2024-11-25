@@ -10,6 +10,7 @@
   font-family: Arial, sans-serif;
 }
 
+/* inicio estilo do submenu ************************** */
 .tabs {
   display: flex;
   border-bottom: 2px solid #ccc;
@@ -38,18 +39,19 @@
 }
 
 .conteudo {
-  padding: 20px;
+
   background-color: #f4f4f4;
   border: 1px solid #ccc;
   border-radius: 5px;
   flex-grow: 1;
 }
+/* final estilo do submenu ************************** */
 
 
 
 
 
-/* estilo do cadastro pessoal */
+/* inicio estilo do cadastro pessoal alterar senha ************************** */
 .password-update-container {
   display: flex;
   justify-content: center;
@@ -80,3 +82,157 @@ mat-card-title {
 #title-alterar-senha {
   font-weight: bolder;
 }
+/* final estilo do cadastro pessoal alterar senha ************************** */
+
+
+
+
+
+/* inicio estilo do cadastro empresa ************************** */
+.body-cadastro-empresa {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(74, 174, 168);
+
+}
+
+.container-list-empresa {
+  width: 350px;
+  height: 100%;
+  overflow: auto;
+
+}
+
+.container-list-empresa::-webkit-scrollbar {
+  width: 14px; /* Define a largura da barra de rolagem */
+}
+
+.container-list-empresa::-webkit-scrollbar-thumb {
+  background-color: $color-polegar; /* Cor do polegar */
+  border-radius: 10px; /* Deixa o polegar arredondado */
+  border: 3px solid #f1f1f1; /* Adiciona uma borda ao polegar para dar um efeito "flutuante" */
+}
+
+table {
+  width: 99%;
+  border-collapse: collapse;
+  margin: auto;
+
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  text-align: center;
+}
+
+th {
+  background-color: $color-cabecario-table;
+}
+
+td {
+  cursor: pointer;
+}
+
+tr:nth-child(even) {
+  background-color: $color-linha-table-alternada;
+}
+
+tr:hover{
+  background-color: $color-linha-table-hover;
+}
+
+.container-informacao-empresa {
+  flex-grow: 1;
+  width: 350px;
+  height: 100%;
+  padding: 10px;
+
+}
+
+
+
+.formulario-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 6px 0 0 0;
+}
+
+.formulario-esquerdo,
+.formulario-direito {
+  flex: 1;
+}
+
+.formulario-direito {
+  display: flex;        /* Define o layout como flexível */
+  flex-direction: column; /* Empilha os itens verticalmente */
+  align-items: flex-start; /* Alinha os itens ao lado esquerdo */
+  padding: 10px;       /* Adiciona espaçamento interno (opcional) */
+}
+
+
+
+mat-checkbox .mat-checkbox-label {
+  margin-left: 8px; /* Adiciona espaço entre o ícone do checkbox e a label */
+}
+
+.full-width {
+  width: 100%;
+}
+
+.input-informacao {
+ padding: 8px 5px;
+
+}
+
+mat-checkbox {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.formulario-botoes {
+  text-align: center;
+
+}
+
+button {
+  margin: 0 10px;
+  padding: 10px 20px;
+}
+
+.div-select {
+  margin-top: 20px;
+}
+
+.custom-input {
+  height: auto;
+}
+
+.custom-input .mat-form-field-infix {
+  padding: 0 !important;
+  height: 40px !important;
+}
+
+.custom-input .mat-mdc-form-field-infix {
+  min-height: 50px;
+}
+
+.custom-input .mat-input-element {
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 4px;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 16px;
+  padding-bottom: 0;
+}
+
+
+
+/* inicio lista empresa */
+
+

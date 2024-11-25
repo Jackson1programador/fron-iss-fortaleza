@@ -49,7 +49,125 @@
   </div>
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba2'">
-    <p>Conteúdo da Aba 2</p>
+
+
+    <div class="body-cadastro-empresa">
+
+
+
+      <div class="container-list-empresa">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let empresa of empresas">
+              <td (click)="selecionaEmpresa(empresa)"> {{empresa.nome}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+      <div class="container-informacao-empresa">
+        <div class="formulario-container" [formGroup]="formularioEmpresa">
+
+          <!-- Lado Esquerdo - Inputs -->
+          <div class="formulario-esquerdo">
+            <mat-form-field appearance="outline" class="full-width custom-input" >
+              <mat-error *ngIf="formularioEmpresa.get('nome')?.hasError('required')">
+                O nome é obrigatório.
+              </mat-error>
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="nome" placeholder="Insira o nome" class="input-informacao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width custom-input">
+              <mat-error *ngIf="formularioEmpresa.get('cnpj')?.hasError('required')">
+                O CNPJ é obrigatório.
+              </mat-error>
+              <mat-error *ngIf="formularioEmpresa.get('cnpj')?.hasError('minlength')">
+                O CNPJ deve ter 14 caracteres.
+              </mat-error>
+              <mat-label>CNPJ</mat-label>
+              <input matInput formControlName="cnpj" placeholder="Insira o CNPJ" class="input-informacao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width custom-input">
+              <mat-error *ngIf="formularioEmpresa.get('inscricaoMunicipal')?.hasError('required')">
+                A inscrição municipal é obrigatório.
+              </mat-error>
+              <mat-label>Inscrição Municipal</mat-label>
+              <input matInput formControlName="inscricaoMunicipal" placeholder="Insira a inscrição" class="input-informacao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width custom-input">
+              <mat-error *ngIf="formularioEmpresa.get('cpfResponsavel')?.hasError('required')">
+                O CPF é obrigatório.
+              </mat-error>
+              <mat-error *ngIf="formularioEmpresa.get('cpfResponsavel')?.hasError('minlength')">
+                O CPF deve ter 11 caracteres.
+              </mat-error>
+              <mat-label>CPF do Responsável</mat-label>
+              <input matInput formControlName="cpfResponsavel" placeholder="Insira o CPF" class="input-informacao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width custom-input">
+              <mat-error *ngIf="formularioEmpresa.get('senhaIss')?.hasError('required')">
+                A senha é obrigatório.
+              </mat-error>
+              <mat-label>Senha ISS Fortaleza</mat-label>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="senhaIss">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+            <!-- Lado Direito - Checkboxes -->
+          <div class="formulario-direito" [formGroup]="formularioEmpresa">
+            <mat-checkbox formControlName="aceites">Aceites</mat-checkbox>
+            <mat-checkbox formControlName="encerrar">Encerrar</mat-checkbox>
+            <mat-checkbox formControlName="downloadPlanilha">Download da Planilha</mat-checkbox>
+            <mat-checkbox formControlName="gerarGuia">Gerar Guia</mat-checkbox>
+            <mat-checkbox formControlName="enviarEmail">Enviar Email</mat-checkbox>
+
+            <div class="div-select">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Coordenação</mat-label>
+                <mat-select formControlName="coordenacao">
+                  <mat-option *ngFor="let coordenacao of coordenacoes" [value]="coordenacao">
+                    {{ coordenacao }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formularioEmpresa.get('coordenacao')?.hasError('required')">
+                  A coordenação é obrigatória.
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+        <div class="formulario-botoes">
+          <button mat-raised-button color="primary" >Novo</button>
+          <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+          <button mat-raised-button color="warn" (click)="onDelete()">Excluir</button>
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+
   </div>
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba3'">

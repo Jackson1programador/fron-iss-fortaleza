@@ -1,1 +1,11 @@
-<p>menu works!</p>
+<mat-toolbar color="primary" class="app-toolbar">
+  <span class="app-title">Robô ISS</span>
+  <span class="menu-links">
+    <a mat-button routerLink="/home" routerLinkActive="active-link">Home</a>
+    <a mat-button routerLink="/cadastro" routerLinkActive="active-link">Cadastro</a>
+    <a mat-button routerLink="/contato" routerLinkActive="active-link">Contato</a>
+  </span>
+  <button mat-icon-button class="logout-button" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>

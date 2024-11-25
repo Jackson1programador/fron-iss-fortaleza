@@ -1,0 +1,29 @@
+@import "../../CSS/app.scss";
+
+.app-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.app-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.menu-links a {
+  text-decoration: none;
+  color: white;
+  margin-right: 15px;
+}
+
+.menu-links a.active-link {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.logout-button {
+  color: white;
+}

@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class MenuComponent {
 
+  logout() {
+    // Lógica para deslogar o usuário
+    console.log('Usuário deslogado!');
+  }
 }

@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
+import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,8 @@ import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  constructor(private sharedService: SharedService) { }
 
   public empresasFront: EmpresaParaHome[] = [];
   public empresas: EmpresaParaHome[] = [];
@@ -151,6 +154,9 @@ export class HomeComponent implements OnInit {
 
     this.empresasFront = this.empresas;
     this.empresasCheckboxMarcada = this.empresas;
+
+    console.log(this.empresas)
+    this.sharedService.changeData(this.empresas);
   }
 }
 

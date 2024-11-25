@@ -10,7 +10,7 @@ import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha
 import { ContatoComponent } from './pages/contato/contato.component';
 
 const routes: Routes = [
-  {path: "", component: HomeComponent, pathMatch: "full"},
+  {path: "home", component: HomeComponent, pathMatch: "full"},
   {path: "login", component: LoginComponent},
   {path: "cadastro", component: CadastroComponent},
   {path: "recuperar-senha", component: RecuperarSenhaComponent},
