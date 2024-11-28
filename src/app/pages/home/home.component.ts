@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
     this.competenciaSelecionada = this.competencias[this.competencias.length - 1].valor;
 
 
-    let empresa1: EmpresaParaHome = { id: 1, cnpj: "123123123123", nome: "fulando de tal", situacao: "sucesso", email: "sucesso", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" };
+    let empresa1: EmpresaParaHome = { id: 1, cnpj: "11111111111111", nome: "fulando de tal", situacao: "sucesso", email: "sucesso", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" };
     let empresa2: EmpresaParaHome = { id: 2, cnpj: "123123123123", nome: "toinaha variedade", situacao: "processando", email: "processando", guia: "processando", encerramento: "sucesso", aceites: "sucesso" };
     let empresa3: EmpresaParaHome = { id: 3, cnpj: "123123123123", nome: "aviao de tal", situacao: "erro", email: "erro", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" };
     let empresa4: EmpresaParaHome = { id: 4, cnpj: "123123123123", nome: "casa de tal", situacao: "pendente", email: "pendente", guia: "pendente", encerramento: "pendente", aceites: "pendente" };

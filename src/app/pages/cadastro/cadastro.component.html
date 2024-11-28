@@ -3,7 +3,7 @@
     <!-- Abas -->
     <div class="tab" (click)="selecionarAba('aba1')" [class.active]="abaAtiva === 'aba1'">Alterar Senha</div>
     <div class="tab" (click)="selecionarAba('aba2')" [class.active]="abaAtiva === 'aba2'">Cadastro Empresa</div>
-    <div class="tab" (click)="selecionarAba('aba3')" [class.active]="abaAtiva === 'aba3'">Cadastro Outros Execultores</div>
+    <div class="tab" (click)="selecionarAba('aba3')" [class.active]="abaAtiva === 'aba3'">Cadastro Usuario</div>
   </div>
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba1'">
@@ -82,7 +82,7 @@
                 O nome é obrigatório.
               </mat-error>
               <mat-label>Nome</mat-label>
-              <input matInput formControlName="nome" placeholder="Insira o nome" class="input-informacao">
+              <input #nomeInput matInput formControlName="nome" placeholder="Insira o nome" class="input-informacao">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -93,7 +93,12 @@
                 O CNPJ deve ter 14 caracteres.
               </mat-error>
               <mat-label>CNPJ</mat-label>
-              <input matInput formControlName="cnpj" placeholder="Insira o CNPJ" class="input-informacao">
+              <input
+              matInput formControlName="cnpj"
+              placeholder="Insira o CNPJ"
+              class="input-informacao"
+              mask="00.000.000/0000-00"
+              (keypress)="permitirSomenteNumeros($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -101,7 +106,11 @@
                 A inscrição municipal é obrigatório.
               </mat-error>
               <mat-label>Inscrição Municipal</mat-label>
-              <input matInput formControlName="inscricaoMunicipal" placeholder="Insira a inscrição" class="input-informacao">
+              <input
+              matInput formControlName="inscricaoMunicipal"
+              placeholder="Insira a inscrição"
+              class="input-informacao"
+              (keypress)="permitirSomenteNumeros($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -112,7 +121,12 @@
                 O CPF deve ter 11 caracteres.
               </mat-error>
               <mat-label>CPF do Responsável</mat-label>
-              <input matInput formControlName="cpfResponsavel" placeholder="Insira o CPF" class="input-informacao">
+              <input
+              matInput formControlName="cpfResponsavel"
+              placeholder="Insira o CPF"
+              class="input-informacao"
+              mask="000.000.000-00"
+              (keypress)="permitirSomenteNumeros($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -156,8 +170,9 @@
         </div>
 
         <div class="formulario-botoes">
-          <button mat-raised-button color="primary" >Novo</button>
-          <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+          <button mat-raised-button color="primary" (click)="novoFormulario()">Novo</button>
+          <button mat-raised-button color="primary" (click)="editarFormulario()">Editar</button>
+          <button mat-raised-button color="primary" (click)="salvar()" [disabled]="naoPodeSalvar()">Salvar</button>
           <button mat-raised-button color="warn" (click)="onDelete()">Excluir</button>
         </div>
 

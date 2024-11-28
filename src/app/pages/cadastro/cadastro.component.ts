@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef   } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
 import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
@@ -40,17 +40,18 @@ export class CadastroComponent implements OnInit {
     }, { validators: this.passwordsMatchValidator });
 
     this.formularioEmpresa = this.fb.group({
-      nome: ['', Validators.required],
-      cnpj: ['', [Validators.required, Validators.minLength(14)]],
-      inscricaoMunicipal: ['', Validators.required],
-      cpfResponsavel: ['', [Validators.required, Validators.minLength(11)]],
-      senhaIss: ['', Validators.required],
-      aceites: [false],
-      encerrar: [false],
-      downloadPlanilha: [false],
-      gerarGuia: [false],
-      enviarEmail: [false],
-      coordenacao: [''] // Valor padrão vazio
+      nome: [{ value: '', disabled: true }, Validators.required],
+      //cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14)]],
+      cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14) ,Validators.pattern(/^\d{14}$/)]],
+      inscricaoMunicipal: [{ value: '', disabled: true }, Validators.required],
+      cpfResponsavel: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(11)]],
+      senhaIss: [{ value: '', disabled: true }, Validators.required],
+      aceites: [{ value: false, disabled: true }],
+      encerrar: [{ value: false, disabled: true }],
+      downloadPlanilha: [{ value: false, disabled: true }],
+      gerarGuia: [{ value: false, disabled: true }],
+      enviarEmail: [{ value: false, disabled: true }],
+      coordenacao: [{ value: '', disabled: true }, Validators.required],
     });
   }
 
@@ -75,6 +76,7 @@ export class CadastroComponent implements OnInit {
 
    // ********Inicio do cadastro empresa ***********************************************************
 
+   @ViewChild('nomeInput') nomeInput!: ElementRef; // ViewChild para o campo de nome
 
   public empresas: EmpresaParaHome[] = [];
 
@@ -86,13 +88,6 @@ export class CadastroComponent implements OnInit {
     console.log(this.empresas)
   }
 
-  editarEmpresa(empresa: any) {
-    console.log (empresa)
-  }
-
-  excluirEmpresa(empresa: any) {
-    console.log (empresa)
-  }
 
   selecionaEmpresa(empresa: any) {
     console.log (empresa)
@@ -114,16 +109,49 @@ export class CadastroComponent implements OnInit {
 
 
   salvar() {
-    if (this.formularioEmpresa.valid) {
-      console.log('Formulário enviado para edição:', this.formularioEmpresa.value);
-    } else {
-      console.log('Por favor, preencha todos os campos corretamente.');
-    }
+    console.log('Formulário enviado para edição:', this.formularioEmpresa.value);
+    this.desativarFormulario()
+    this.reset()
   }
 
   onDelete() {
-      // Confirmação opcional antes de limpar o formulário
-  if (confirm('Tem certeza de que deseja excluir os dados do formulário?')) {
+   if (!this.existeEmpresaSelecionada()) {
+     alert('Selecione a empresa que deseja excluir.');
+     return;
+   }
+
+  if (confirm('Tem certeza de que deseja excluir a empresa?')) {
+    console.log('Dados do formulário foram excluídos.');
+    this.desativarFormulario()
+    this.reset()
+  }
+  }
+
+  novoFormulario(): void {
+    this.reset()
+     this.ativarFormulario()
+    }
+
+  editarFormulario() {
+    if (this.existeEmpresaSelecionada()) {
+     this.ativarFormulario()
+    } else {
+      alert('Selecione uma empresa para editar.');
+    }
+  }
+
+  ativarFormulario(): void {
+    this.formularioEmpresa.enable(); // Ativa todos os campos do formulário
+    this.focarCampoNome()
+  }
+
+  desativarFormulario(): void {
+    this.formularioEmpresa.disable(); // Desativa todos os campos do formulário
+  }
+
+
+
+  reset(): void {
     this.formularioEmpresa.reset({
       nome: '',
       cnpj: '',
@@ -136,9 +164,41 @@ export class CadastroComponent implements OnInit {
       gerarGuia: false,
       enviarEmail: false,
     });
-
-    console.log('Dados do formulário foram excluídos.');
   }
+
+  existeEmpresaSelecionada(): boolean {
+    const nome = this.formularioEmpresa.get('nome')?.value;
+    return !!nome; // Retorna true se 'nome' tiver valor, caso contrário, false
+  }
+
+
+
+  focarCampoNome(): void {
+    setTimeout(() => {
+      this.nomeInput.nativeElement.focus(); // Foca no campo de nome
+    }, 0);
+  }
+
+  // Função para formatar os nomes dos campos, na hora de salva se tiver campo invalido esse codigo vai compor a funcao salvar
+
+
+  // Verifica se o botão Salvar deve ser habilitado
+  podeSalvar(): boolean {
+    return this.formularioEmpresa.valid; // Habilita se o formulário é válido
+  }
+
+  // Verifica se o botão Salvar deve ser desabilitado
+  naoPodeSalvar(): boolean {
+    return !this.formularioEmpresa.valid; // Desabilita se o formulário é inválido
+  }
+
+
+  permitirSomenteNumeros(event: KeyboardEvent): void {
+    const charCode = event.charCode ? event.charCode : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+      alert('Somente números são permitidos.');
+    }
   }
 
 
