@@ -98,7 +98,7 @@
               placeholder="Insira o CNPJ"
               class="input-informacao"
               mask="00.000.000/0000-00"
-              (keypress)="permitirSomenteNumeros($event)">
+              (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -110,7 +110,7 @@
               matInput formControlName="inscricaoMunicipal"
               placeholder="Insira a inscrição"
               class="input-informacao"
-              (keypress)="permitirSomenteNumeros($event)">
+              (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -126,7 +126,7 @@
               placeholder="Insira o CPF"
               class="input-informacao"
               mask="000.000.000-00"
-              (keypress)="permitirSomenteNumeros($event)">
+              (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -162,26 +162,17 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
           </div>
-
-
-
         </div>
 
         <div class="formulario-botoes">
-          <button mat-raised-button color="primary" (click)="novoFormulario()">Novo</button>
-          <button mat-raised-button color="primary" (click)="editarFormulario()">Editar</button>
-          <button mat-raised-button color="primary" (click)="salvar()" [disabled]="naoPodeSalvar()">Salvar</button>
-          <button mat-raised-button color="warn" (click)="onDelete()">Excluir</button>
+          <button mat-raised-button color="primary" (click)="novoFormularioEmpresa()">Novo</button>
+          <button mat-raised-button color="primary" (click)="editarFormularioEmpresa()">Editar</button>
+          <button mat-raised-button color="primary" (click)="salvarEmpresa()" [disabled]="naoPodeSalvarEmpresa()">Salvar</button>
+          <button mat-raised-button color="warn" (click)="onDeleteEmpresa()">Excluir</button>
         </div>
-
-
       </div>
     </div>
-
-
-
 
   </div>
 

@@ -12,6 +12,40 @@ import { SharedService } from 'src/app/service/shared.service';  // Importe o se
 })
 export class CadastroComponent implements OnInit {
 
+// ********Inicio dos dados compartilhados ***********************************************************
+
+constructor(private fb: FormBuilder, private sharedService: SharedService) {
+  this.passwordForm = this.fb.group({
+    currentPassword: ['', Validators.required],
+    newPassword: ['', Validators.required],
+    confirmPassword: ['', Validators.required]
+  }, { validators: this.passwordsMatchValidator });
+
+  this.formularioEmpresa = this.fb.group({
+    nome: [{ value: '', disabled: true }, Validators.required],
+    //cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14)]],
+    cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14) ,Validators.pattern(/^\d{14}$/)]],
+    inscricaoMunicipal: [{ value: '', disabled: true }, Validators.required],
+    cpfResponsavel: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(11)]],
+    senhaIss: [{ value: '', disabled: true }, Validators.required],
+    aceites: [{ value: false, disabled: true }],
+    encerrar: [{ value: false, disabled: true }],
+    downloadPlanilha: [{ value: false, disabled: true }],
+    gerarGuia: [{ value: false, disabled: true }],
+    enviarEmail: [{ value: false, disabled: true }],
+    coordenacao: [{ value: '', disabled: true }, Validators.required],
+  });
+}
+// ********final dos dados compartilhados ***********************************************************
+
+
+
+
+
+
+
+
+
   // ********Inicio do Submenu ***********************************************************
   // Estado da aba ativa, inicialmente "aba1"
   abaAtiva = 'aba1';
@@ -22,38 +56,19 @@ export class CadastroComponent implements OnInit {
    //******** final do Submenu ***********************************************************
 
 
+
+
+
+
+
+
+
+
   // ********Inicio do altear senha ***********************************************************
   passwordForm: FormGroup;
   hideCurrentPassword = true;
   hideNewPassword = true;
   hideConfirmPassword = true;
-
-  coordenacoes: string[] = ['Coordenação 1', 'Coordenação 2', 'Coordenação 3'];
-  formularioEmpresa: FormGroup;
-  hidePassword = true;
-
-  constructor(private fb: FormBuilder, private sharedService: SharedService) {
-    this.passwordForm = this.fb.group({
-      currentPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    }, { validators: this.passwordsMatchValidator });
-
-    this.formularioEmpresa = this.fb.group({
-      nome: [{ value: '', disabled: true }, Validators.required],
-      //cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14)]],
-      cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14) ,Validators.pattern(/^\d{14}$/)]],
-      inscricaoMunicipal: [{ value: '', disabled: true }, Validators.required],
-      cpfResponsavel: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(11)]],
-      senhaIss: [{ value: '', disabled: true }, Validators.required],
-      aceites: [{ value: false, disabled: true }],
-      encerrar: [{ value: false, disabled: true }],
-      downloadPlanilha: [{ value: false, disabled: true }],
-      gerarGuia: [{ value: false, disabled: true }],
-      enviarEmail: [{ value: false, disabled: true }],
-      coordenacao: [{ value: '', disabled: true }, Validators.required],
-    });
-  }
 
   passwordsMatchValidator(form: FormGroup) {
      //const newPassword = form.get('newPassword').value;
@@ -74,20 +89,17 @@ export class CadastroComponent implements OnInit {
 
 
 
+
+
+
+
+
    // ********Inicio do cadastro empresa ***********************************************************
-
-   @ViewChild('nomeInput') nomeInput!: ElementRef; // ViewChild para o campo de nome
-
+  @ViewChild('nomeInput') nomeInput!: ElementRef; // ViewChild para o campo de nome
   public empresas: EmpresaParaHome[] = [];
-
-  ngOnInit() {
-    // Inscreve-se para receber as atualizações de dados do serviço
-    this.sharedService.currentData$.subscribe(empresasAtualizada => {
-      this.empresas = empresasAtualizada;
-    });
-    console.log(this.empresas)
-  }
-
+  coordenacoes: string[] = ['Coordenação 1', 'Coordenação 2', 'Coordenação 3'];
+  formularioEmpresa: FormGroup;
+  hidePassword = true;
 
   selecionaEmpresa(empresa: any) {
     console.log (empresa)
@@ -105,53 +117,48 @@ export class CadastroComponent implements OnInit {
     });
   }
 
-
-
-
-  salvar() {
+  salvarEmpresa() {
     console.log('Formulário enviado para edição:', this.formularioEmpresa.value);
-    this.desativarFormulario()
-    this.reset()
+    this.desativarFormularioEmpresa()
+    this.resetEmpresa()
   }
 
-  onDelete() {
+  onDeleteEmpresa() {
    if (!this.existeEmpresaSelecionada()) {
      alert('Selecione a empresa que deseja excluir.');
      return;
    }
 
-  if (confirm('Tem certeza de que deseja excluir a empresa?')) {
-    console.log('Dados do formulário foram excluídos.');
-    this.desativarFormulario()
-    this.reset()
-  }
+    if (confirm('Tem certeza de que deseja excluir a empresa?')) {
+      console.log('Dados do formulário foram excluídos.');
+      this.desativarFormularioEmpresa()
+      this.resetEmpresa()
+    }
   }
 
-  novoFormulario(): void {
-    this.reset()
-     this.ativarFormulario()
+  novoFormularioEmpresa(): void {
+    this.resetEmpresa()
+     this.ativarFormularioEmpresa()
     }
 
-  editarFormulario() {
+  editarFormularioEmpresa() {
     if (this.existeEmpresaSelecionada()) {
-     this.ativarFormulario()
+     this.ativarFormularioEmpresa()
     } else {
       alert('Selecione uma empresa para editar.');
     }
   }
 
-  ativarFormulario(): void {
+  ativarFormularioEmpresa(): void {
     this.formularioEmpresa.enable(); // Ativa todos os campos do formulário
-    this.focarCampoNome()
+    this.focarCampoNomeFormularioEmpresa()
   }
 
-  desativarFormulario(): void {
+  desativarFormularioEmpresa(): void {
     this.formularioEmpresa.disable(); // Desativa todos os campos do formulário
   }
 
-
-
-  reset(): void {
+  resetEmpresa(): void {
     this.formularioEmpresa.reset({
       nome: '',
       cnpj: '',
@@ -171,36 +178,83 @@ export class CadastroComponent implements OnInit {
     return !!nome; // Retorna true se 'nome' tiver valor, caso contrário, false
   }
 
-
-
-  focarCampoNome(): void {
+  focarCampoNomeFormularioEmpresa(): void {
     setTimeout(() => {
       this.nomeInput.nativeElement.focus(); // Foca no campo de nome
     }, 0);
   }
 
-  // Função para formatar os nomes dos campos, na hora de salva se tiver campo invalido esse codigo vai compor a funcao salvar
-
-
   // Verifica se o botão Salvar deve ser habilitado
-  podeSalvar(): boolean {
+  podeSalvarEmpresa(): boolean {
     return this.formularioEmpresa.valid; // Habilita se o formulário é válido
   }
 
   // Verifica se o botão Salvar deve ser desabilitado
-  naoPodeSalvar(): boolean {
+  naoPodeSalvarEmpresa(): boolean {
     return !this.formularioEmpresa.valid; // Desabilita se o formulário é inválido
   }
 
-
-  permitirSomenteNumeros(event: KeyboardEvent): void {
+  permitirSomenteNumerosFormularioEmpresa(event: KeyboardEvent): void {
     const charCode = event.charCode ? event.charCode : event.keyCode;
     if (charCode < 48 || charCode > 57) {
       event.preventDefault();
       alert('Somente números são permitidos.');
     }
   }
+  // ********final do cadastro empresa ***********************************************************
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ngOnInit() {
+    // Inscreve-se para receber as atualizações de dados do serviço
+    this.sharedService.currentData$.subscribe(empresasAtualizada => {
+      this.empresas = empresasAtualizada;
+    });
+    console.log(this.empresas)
+  }
 
 
 
