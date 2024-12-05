@@ -234,5 +234,19 @@ button {
 
 
 /* inicio lista empresa */
+.body-cadastro-usuario {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: rgb(74, 174, 168);
 
+}
+
+.container-list-usuario {
+  width: 350px;
+  height: 100%;
+  overflow: auto;
+
+}
 

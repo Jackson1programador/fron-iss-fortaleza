@@ -1,3 +1,4 @@
+import { UsuarioParaCadastro } from 'src/app/interface/UsuarioParaCadastro';
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef   } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
@@ -13,6 +14,7 @@ import { SharedService } from 'src/app/service/shared.service';  // Importe o se
 export class CadastroComponent implements OnInit {
 
 // ********Inicio dos dados compartilhados ***********************************************************
+coordenacoes: string[] = ['Coordenação 1', 'Coordenação 2', 'Coordenação 3'];
 
 constructor(private fb: FormBuilder, private sharedService: SharedService) {
   this.passwordForm = this.fb.group({
@@ -35,6 +37,14 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     enviarEmail: [{ value: false, disabled: true }],
     coordenacao: [{ value: '', disabled: true }, Validators.required],
   });
+
+  this.formularioUsuario = this.fb.group({
+    nome: [{ value: '', disabled: true }, Validators.required],
+    coordenacao: [{ value: '', disabled: true }, Validators.required],
+    email: [{ value: '', disabled: true }, Validators.required],
+    isCoordenador: [{ value: false, disabled: true }],
+    isUsuarioMaster: [{ value: false, disabled: true }]
+  })
 }
 // ********final dos dados compartilhados ***********************************************************
 
@@ -97,7 +107,6 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
    // ********Inicio do cadastro empresa ***********************************************************
   @ViewChild('nomeInput') nomeInput!: ElementRef; // ViewChild para o campo de nome
   public empresas: EmpresaParaHome[] = [];
-  coordenacoes: string[] = ['Coordenação 1', 'Coordenação 2', 'Coordenação 3'];
   formularioEmpresa: FormGroup;
   hidePassword = true;
 
@@ -124,12 +133,13 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
   }
 
   onDeleteEmpresa() {
+    const nome = this.formularioEmpresa.get('nome')?.value;
    if (!this.existeEmpresaSelecionada()) {
      alert('Selecione a empresa que deseja excluir.');
      return;
    }
 
-    if (confirm('Tem certeza de que deseja excluir a empresa?')) {
+    if (confirm(`Tem certeza de que deseja excluir a empresa ${nome} ?`)) {
       console.log('Dados do formulário foram excluídos.');
       this.desativarFormularioEmpresa()
       this.resetEmpresa()
@@ -210,6 +220,112 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
 
 
+   // ********inicio do cadastro usuario ***********************************************************
+  usuarios: UsuarioParaCadastro[] = [];
+  formularioUsuario: FormGroup;
+  botaoDesabilitarCanselarUsuario: boolean = true;
+
+
+
+  selecionaUsuario(usuario: any) {
+    console.log (usuario)
+    this.formularioUsuario.patchValue({
+      nome: usuario.nome,
+      email: usuario.email,
+      isCoordenador: usuario.isCoordenador,
+      coordenacao: usuario.coordenacao,
+      isUsuarioMaster: usuario.isUsuarioMaster
+    });
+  }
+
+  salvarUsuario() {
+    console.log('Formulário enviado para edição:', this.formularioUsuario.value);
+    this.desativarFormularioUsuario()
+    this.resetUsuario()
+    this.botaoDesabilitarCanselarUsuario = true
+  }
+
+  onDeleteUsuario() {
+    const nome = this.formularioUsuario.get('nome')?.value;
+   if (!this.existeUsuarioSelecionada()) {
+     alert('Selecione um usuario que deseja excluir.');
+     return;
+   }
+
+    if (confirm(`Tem certeza de que deseja excluir o usuario ${nome} ?`)) {
+      console.log('Dados do formulário foram excluídos.');
+      this.desativarFormularioUsuario()
+      this.resetUsuario()
+    }
+  }
+
+  novoFormularioUsuario(): void {
+    this.resetUsuario()
+    this.ativarFormularioUsuario()
+    this.botaoDesabilitarCanselarUsuario = false
+  }
+
+  editarFormularioUsuario() {
+    if (this.existeUsuarioSelecionada()) {
+     this.ativarFormularioUsuario()
+     this.botaoDesabilitarCanselarUsuario = false
+    } else {
+      alert('Selecione um usuario para editar.');
+    }
+  }
+  cancelarUsuario() {
+    this.desativarFormularioUsuario()
+    this.resetUsuario()
+    this.botaoDesabilitarCanselarUsuario = true
+  }
+
+  ativarFormularioUsuario(): void {
+    this.formularioUsuario.enable(); // Ativa todos os campos do formulário
+    this.focarCampoNomeFormularioUsuario()
+  }
+
+  desativarFormularioUsuario(): void {
+    this.formularioUsuario.disable(); // Desativa todos os campos do formulário
+  }
+
+  resetUsuario(): void {
+    this.formularioUsuario.reset({
+      nome: '',
+      email: '',
+      coordenacao: '',
+      isCoordenador: false,
+      isUsuarioMaster: false,
+    });
+  }
+
+  existeUsuarioSelecionada(): boolean {
+    const nome = this.formularioUsuario.get('nome')?.value;
+    return !!nome; // Retorna true se 'nome' tiver valor, caso contrário, false
+  }
+
+  // ver se t[a funcionando pq esta igual o do formulario empresa]
+  focarCampoNomeFormularioUsuario(): void {
+    setTimeout(() => {
+      this.nomeInput.nativeElement.focus(); // Foca no campo de nome
+    }, 0);
+  }
+
+  // Verifica se o botão Salvar deve ser habilitado
+  podeSalvarUsuario(): boolean {
+    return this.formularioUsuario.valid; // Habilita se o formulário é válido
+  }
+
+  // Verifica se o botão Salvar deve ser desabilitado
+  naoPodeSalvarUsuario(): boolean {
+    return !this.formularioUsuario.valid; // Desabilita se o formulário é inválido
+  }
+
+  naoPodeCancelarUsuario(): boolean {
+    return true
+  }
+
+
+
 
 
 
@@ -254,6 +370,18 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
       this.empresas = empresasAtualizada;
     });
     console.log(this.empresas)
+
+
+    this.usuarios = [
+      { id: 1, nome: 'Coordenador 1', isCoordenador: false, coordenacao: 'Coordenação 1', email: 'teste@gmail', isUsuarioMaster: true },
+      { id: 2, nome: 'Coordenador 2', isCoordenador: false, coordenacao: 'Coordenação 1', email: 'teste@gmail', isUsuarioMaster: false},
+      { id: 3, nome: 'Coordenador 3', isCoordenador: true, coordenacao: 'Coordenação 2', email: 'teste@gmail', isUsuarioMaster: false},
+      { id: 4, nome: 'Coordenador 4', isCoordenador: false, coordenacao: 'Coordenação 1', email: 'teste@gmail', isUsuarioMaster: false},
+      { id: 5, nome: 'Coordenador 5', isCoordenador: true, coordenacao: 'Coordenação 2', email: 'teste@gmail', isUsuarioMaster: false},
+
+    ];
+
+    console.log(this.usuarios)
   }
 
 
