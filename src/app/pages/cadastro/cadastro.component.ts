@@ -38,13 +38,25 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     coordenacao: [{ value: '', disabled: true }, Validators.required],
   });
 
+
+
   this.formularioUsuario = this.fb.group({
     nome: [{ value: '', disabled: true }, Validators.required],
     coordenacao: [{ value: '', disabled: true }, Validators.required],
-    email: [{ value: '', disabled: true }, Validators.required],
+    email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
     isCoordenador: [{ value: false, disabled: true }],
     isUsuarioMaster: [{ value: false, disabled: true }]
   })
+   // Monitorando mudanças nos campos isCoordenador
+   this.formularioUsuario.get('isCoordenador')?.valueChanges.subscribe((isCoordenador) => {
+    this.updateCoordenacaoStatus();
+  });
+ // Monitorando mudanças nos campos isUsuarioMaster
+  this.formularioUsuario.get('isUsuarioMaster')?.valueChanges.subscribe((isUsuarioMaster) => {
+    this.updateCoordenacaoStatus();
+  });
+
+
 }
 // ********final dos dados compartilhados ***********************************************************
 
@@ -109,6 +121,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
   public empresas: EmpresaParaHome[] = [];
   formularioEmpresa: FormGroup;
   hidePassword = true;
+  botaoDesabilitarCanselarEmpresa: boolean = true;
 
   selecionaEmpresa(empresa: any) {
     console.log (empresa)
@@ -130,6 +143,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     console.log('Formulário enviado para edição:', this.formularioEmpresa.value);
     this.desativarFormularioEmpresa()
     this.resetEmpresa()
+    this.botaoDesabilitarCanselarEmpresa = true
   }
 
   onDeleteEmpresa() {
@@ -148,15 +162,23 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
   novoFormularioEmpresa(): void {
     this.resetEmpresa()
-     this.ativarFormularioEmpresa()
-    }
+    this.ativarFormularioEmpresa()
+    this.botaoDesabilitarCanselarEmpresa = false
+  }
 
   editarFormularioEmpresa() {
     if (this.existeEmpresaSelecionada()) {
      this.ativarFormularioEmpresa()
+     this.botaoDesabilitarCanselarEmpresa = false
     } else {
       alert('Selecione uma empresa para editar.');
     }
+  }
+
+  cancelarEmpresa() {
+    this.desativarFormularioEmpresa()
+    this.resetEmpresa()
+    this.botaoDesabilitarCanselarEmpresa = true
   }
 
   ativarFormularioEmpresa(): void {
@@ -324,6 +346,18 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     return true
   }
 
+   // Função para atualizar o status do campo coordenacao
+  private updateCoordenacaoStatus(): void {
+    const isCoordenador = this.formularioUsuario.get('isCoordenador')?.value;
+    const isUsuarioMaster = this.formularioUsuario.get('isUsuarioMaster')?.value;
+    const coordenacaoControl = this.formularioUsuario.get('coordenacao');
+    if (isCoordenador || isUsuarioMaster) {
+      this.formularioUsuario.get('coordenacao')?.disable(); // Desabilita o campo
+      coordenacaoControl?.reset();  // Limpa o valor do campo
+    } else {
+      this.formularioUsuario.get('coordenacao')?.enable(); // Habilita o campo
+    }
+  }
 
 
 
