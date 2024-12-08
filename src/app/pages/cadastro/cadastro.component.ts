@@ -3,6 +3,7 @@ import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef   } from '@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
 import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
+import { Cliente } from 'src/app/interface/cliente';
 
 
 @Component({
@@ -55,6 +56,21 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
   this.formularioUsuario.get('isUsuarioMaster')?.valueChanges.subscribe((isUsuarioMaster) => {
     this.updateCoordenacaoStatus();
   });
+
+
+  this.formularioCliente = this.fb.group({
+    nome: [{ value: '', disabled: true }, Validators.required],
+    cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14) ,Validators.pattern(/^\d{14}$/)]],
+    nomeUsuarioMaster: [{ value: '', disabled: true }, Validators.required],
+    isCoordenadorUsuarioMaster: [{ value: '', disabled: true }, Validators.required],
+    ativo: [{ value: '', disabled: true }, Validators.required],
+    emailUsuarioMaster: [{ value: '', disabled: true }, [Validators.required, Validators.email]]
+  })
+
+
+
+
+
 
 
 }
@@ -359,6 +375,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     }
   }
 
+ // ********Final do cadastro usuario ***********************************************************
 
 
 
@@ -369,6 +386,109 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
 
 
+  // ********inicio do cadastro cliente ***********************************************************
+  clientes: Cliente[] = [];
+  formularioCliente: FormGroup;
+  botaoDesabilitarCanselarCliente: boolean = true;
+
+  selecionaCliente(cliente: any) {
+    console.log (cliente)
+    this.formularioCliente.patchValue({
+      nome: cliente.nome,
+      cnpj: cliente.cnpj,
+      nomeUsuarioMaster: cliente.nomeUsuarioMaster,
+      isCoordenadorUsuarioMaster: cliente.isCoordenadorUsuarioMaster,
+      emailUsuarioMaster: cliente.emailUsuarioMaster,
+      ativo: cliente.ativo,
+    });
+  }
+
+  salvarCliente() {
+    console.log('Formulário enviado para edição:', this.formularioCliente.value);
+    this.desativarFormularioCliente()
+    this.resetCliente()
+    this.botaoDesabilitarCanselarCliente = true
+  }
+
+  onDeleteCliente() {
+    const nome = this.formularioCliente.get('nome')?.value;
+   if (!this.existeClienteSelecionada()) {
+     alert('Selecione um cliente que deseja excluir.');
+     return;
+   }
+
+    if (confirm(`Tem certeza de que deseja excluir o cliente ${nome} ?`)) {
+      console.log('Dados do formulário foram excluídos.');
+      this.desativarFormularioCliente()
+      this.resetCliente()
+    }
+  }
+
+  novoFormularioCliente(): void {
+    this.resetCliente()
+    this.ativarFormularioCliente()
+    this.botaoDesabilitarCanselarCliente = false
+  }
+
+  editarFormularioCliente() {
+    if (this.existeClienteSelecionada()) {
+     this.ativarFormularioCliente()
+     this.botaoDesabilitarCanselarCliente = false
+    } else {
+      alert('Selecione um cliente para editar.');
+    }
+  }
+  cancelarCliente() {
+    this.desativarFormularioCliente()
+    this.resetCliente()
+    this.botaoDesabilitarCanselarCliente = true
+  }
+
+  ativarFormularioCliente(): void {
+    this.formularioCliente.enable(); // Ativa todos os campos do formulário
+    this.focarCampoNomeFormularioCliente()
+  }
+
+  desativarFormularioCliente(): void {
+    this.formularioCliente.disable(); // Desativa todos os campos do formulário
+  }
+
+  resetCliente(): void {
+    this.formularioCliente.reset({
+      nome: '',
+      cnpj: '',
+      nomeUsuarioMaster: '',
+      isCoordenadorUsuarioMaster: false,
+      emailUsuarioMaster: '',
+      ativo: false,
+    });
+  }
+
+  existeClienteSelecionada(): boolean {
+    const nome = this.formularioCliente.get('nome')?.value;
+    return !!nome; // Retorna true se 'nome' tiver valor, caso contrário, false
+  }
+
+  // ver se t[a funcionando pq esta igual o do formulario empresa]
+  focarCampoNomeFormularioCliente(): void {
+    setTimeout(() => {
+      this.nomeInput.nativeElement.focus(); // Foca no campo de nome
+    }, 0);
+  }
+
+  // Verifica se o botão Salvar deve ser habilitado
+  podeSalvarCliente(): boolean {
+    return this.formularioCliente.valid; // Habilita se o formulário é válido
+  }
+
+  // Verifica se o botão Salvar deve ser desabilitado
+  naoPodeSalvarCliente(): boolean {
+    return !this.formularioCliente.valid; // Desabilita se o formulário é inválido
+  }
+
+  naoPodeCancelarCliente(): boolean {
+    return true
+  }
 
 
 
@@ -416,7 +536,19 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     ];
 
     console.log(this.usuarios)
+
+    this.clientes= [
+      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'marphe', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true }
+   ]
+
+
+   console.log(this.clientes)
   }
+
 
 
 

@@ -3,7 +3,8 @@
     <!-- Abas -->
     <div class="tab" (click)="selecionarAba('aba1')" [class.active]="abaAtiva === 'aba1'">Alterar Senha</div>
     <div class="tab" (click)="selecionarAba('aba2')" [class.active]="abaAtiva === 'aba2'">Cadastro Empresa</div>
-    <div class="tab" (click)="selecionarAba('aba3')" [class.active]="abaAtiva === 'aba3'">Cadastro Usuario</div>
+    <div class="tab" (click)="selecionarAba('aba3')" [class.active]="abaAtiva === 'aba3'">Cadastro Usuário</div>
+    <div class="tab" (click)="selecionarAba('aba4')" [class.active]="abaAtiva === 'aba4'">Cadastro Cliente</div>
   </div>
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba1'">
@@ -47,6 +48,8 @@
 
 
   </div>
+
+
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba2'">
 
@@ -176,6 +179,8 @@
 
   </div>
 
+
+
   <div class="conteudo" *ngIf="abaAtiva === 'aba3'">
 
     <div class="body-cadastro-usuario">
@@ -257,6 +262,104 @@
         </div>
       </div>
     </div>
+
+  </div>
+
+
+
+  <div class="conteudo" *ngIf="abaAtiva === 'aba4'">
+    <div class="body-cadastro-usuario">
+
+      <div class="container-list-usuario">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes">
+              <td (click)="selecionaCliente(cliente)"> {{cliente.nome}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+       <div class="container-informacao-empresa">
+        <div class="formulario-container" [formGroup]="formularioCliente">
+
+          <!-- Lado Esquerdo - Inputs -->
+          <div class="formulario-esquerdo">
+            <mat-form-field appearance="outline" class="full-width custom-input" >
+              <mat-error *ngIf="formularioCliente.get('nome')?.hasError('required')">
+                O nome é obrigatório.
+              </mat-error>
+              <mat-label>Nome</mat-label>
+              <input #nomeInput matInput formControlName="nome" placeholder="Insira o nome" class="input-informacao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width custom-input">
+              <mat-error *ngIf="formularioCliente.get('cnpj')?.hasError('required')">
+                O CNPJ é obrigatório.
+              </mat-error>
+              <mat-error *ngIf="formularioCliente.get('cnpj')?.hasError('minlength')">
+                O CNPJ deve ter 14 caracteres.
+              </mat-error>
+              <mat-label>CNPJ</mat-label>
+              <input
+              matInput formControlName="cnpj"
+              placeholder="Insira o CNPJ"
+              class="input-informacao"
+              mask="00.000.000/0000-00"
+              (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width custom-input">
+              <mat-error *ngIf="formularioCliente.get('emailUsuarioMaster')?.hasError('required')">
+                O e-mail é obrigatório.
+              </mat-error>
+              <mat-error *ngIf="formularioCliente.get('emailUsuarioMaster')?.hasError('email')">
+                O e-mail inserido não é válido.
+              </mat-error>
+              <mat-label>E-mail do usuario master</mat-label>
+              <input
+              matInput formControlName="emailUsuarioMaster"
+              placeholder="Insira o seu e-mail"
+              class="input-informacao">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width custom-input" >
+              <mat-error *ngIf="formularioCliente.get('nomeUsuarioMaster')?.hasError('required')">
+                O nome é obrigatório.
+              </mat-error>
+              <mat-label>Nome do usuário master</mat-label>
+              <input #nomeInput matInput formControlName="nomeUsuarioMaster" placeholder="Insira o nome" class="input-informacao">
+            </mat-form-field>
+         </div>
+
+            <!-- Lado Direito - Checkboxes -->
+          <div class="formulario-direito" [formGroup]="formularioCliente">
+            <mat-checkbox formControlName="isCoordenadorUsuarioMaster">Usuário master é coordenador ?</mat-checkbox>
+            <mat-checkbox formControlName="ativo">Cliente ativo ?</mat-checkbox>
+
+
+          </div>
+        </div>
+
+        <div class="formulario-botoes">
+          <button mat-raised-button color="primary" (click)="novoFormularioCliente()">Novo</button>
+          <button mat-raised-button color="primary" (click)="editarFormularioCliente()">Editar</button>
+          <button mat-raised-button color="primary" (click)="salvarCliente ()" [disabled]="naoPodeSalvarCliente()">Salvar</button>
+          <button mat-raised-button color="warn" (click)="onDeleteCliente()">Excluir</button>
+          <button mat-raised-button color="warn" (click)="cancelarCliente()" [disabled]="botaoDesabilitarCanselarCliente">Cancelar</button>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
 
   </div>
 
