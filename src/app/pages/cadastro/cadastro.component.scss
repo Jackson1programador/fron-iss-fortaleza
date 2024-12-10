@@ -44,6 +44,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   flex-grow: 1;
+
 }
 /* final estilo do submenu ************************** */
 
@@ -161,6 +162,7 @@ tr:hover{
   margin: 6px 0 0 0;
 }
 
+
 .formulario-esquerdo,
 .formulario-direito {
   flex: 1;
@@ -241,12 +243,23 @@ button {
   flex-direction: row;
   background-color: rgb(74, 174, 168);
 
+
 }
 
 .container-list-usuario {
   width: 350px;
-  height: 100%;
+  height: 400px;
   overflow: auto;
 
+}
+
+.container-list-usuario::-webkit-scrollbar {
+  width: 12px; /* Define a largura da barra de rolagem */
+}
+
+.container-list-usuario::-webkit-scrollbar-thumb {
+  background-color: $color-polegar; /* Cor do polegar */
+  border-radius: 10px; /* Deixa o polegar arredondado */
+  border: 3px solid #f1f1f1; /* Adiciona uma borda ao polegar para dar um efeito "flutuante" */
 }
 

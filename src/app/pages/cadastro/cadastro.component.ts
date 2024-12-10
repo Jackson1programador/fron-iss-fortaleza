@@ -1,7 +1,7 @@
 import { UsuarioParaCadastro } from 'src/app/interface/UsuarioParaCadastro';
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef   } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
+import { EmpresaCadastro } from 'src/app/interface/EmpresaParaCadastro';
 import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
 import { Cliente } from 'src/app/interface/cliente';
 
@@ -121,7 +121,17 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     if (this.passwordForm.valid) {
       console.log('Form submitted', this.passwordForm.value);
       // Enviar os dados ao back-end para atualizar a senha
+      this.resetSenha()
+      alert("Senha alterada com sucesso!!!!")
     }
+  }
+
+  resetSenha(): void {
+    this.passwordForm.reset({
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    });
   }
   // ********final do alterar senha ***********************************************************
 
@@ -134,7 +144,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
    // ********Inicio do cadastro empresa ***********************************************************
   @ViewChild('nomeInput') nomeInput!: ElementRef; // ViewChild para o campo de nome
-  public empresas: EmpresaParaHome[] = [];
+  public empresas: EmpresaCadastro[] = [];
   formularioEmpresa: FormGroup;
   hidePassword = true;
   botaoDesabilitarCanselarEmpresa: boolean = true;
@@ -520,9 +530,25 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
   ngOnInit() {
     // Inscreve-se para receber as atualizações de dados do serviço
-    this.sharedService.currentData$.subscribe(empresasAtualizada => {
-      this.empresas = empresasAtualizada;
-    });
+    // this.sharedService.currentData$.subscribe(empresasAtualizada => {
+    //  this.empresas = empresasAtualizada;
+    // });
+
+    this.empresas = [
+      { id: 1, nome: 'Empresa 1', cnpj: '12345678000101', inscricaoMunicipal: 'IM1', cpfResponsavel: '12345678901', senhaIss: 'senha1', aceites: true, encerrar: false, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 1', emailsDestinatarios: ['email1@empresa.com', 'contato1@empresa.com'] },
+      { id: 2, nome: 'Empresa 2', cnpj: '12345678000102', inscricaoMunicipal: 'IM2', cpfResponsavel: '12345678902', senhaIss: 'senha2', aceites: false, encerrar: false, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 2', emailsDestinatarios: ['email2@empresa.com', 'contato2@empresa.com'] },
+      { id: 3, nome: 'Empresa 3', cnpj: '12345678000103', inscricaoMunicipal: 'IM3', cpfResponsavel: '12345678903', senhaIss: 'senha3', aceites: true, encerrar: true, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 3', emailsDestinatarios: ['email3@empresa.com', 'contato3@empresa.com'] },
+      { id: 4, nome: 'Empresa 4', cnpj: '12345678000104', inscricaoMunicipal: 'IM4', cpfResponsavel: '12345678904', senhaIss: 'senha4', aceites: false, encerrar: false, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 4', emailsDestinatarios: ['email4@empresa.com', 'contato4@empresa.com'] },
+      { id: 5, nome: 'Empresa 5', cnpj: '12345678000105', inscricaoMunicipal: 'IM5', cpfResponsavel: '12345678905', senhaIss: 'senha5', aceites: true, encerrar: true, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 5', emailsDestinatarios: ['email5@empresa.com', 'contato5@empresa.com'] },
+      { id: 6, nome: 'Empresa 6', cnpj: '12345678000106', inscricaoMunicipal: 'IM6', cpfResponsavel: '12345678906', senhaIss: 'senha6', aceites: true, encerrar: false, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 6', emailsDestinatarios: ['email6@empresa.com', 'contato6@empresa.com'] },
+      { id: 7, nome: 'Empresa 7', cnpj: '12345678000107', inscricaoMunicipal: 'IM7', cpfResponsavel: '12345678907', senhaIss: 'senha7', aceites: false, encerrar: true, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 7', emailsDestinatarios: ['email7@empresa.com', 'contato7@empresa.com'] },
+      { id: 8, nome: 'Empresa 8', cnpj: '12345678000108', inscricaoMunicipal: 'IM8', cpfResponsavel: '12345678908', senhaIss: 'senha8', aceites: true, encerrar: false, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 8', emailsDestinatarios: ['email8@empresa.com', 'contato8@empresa.com'] },
+      { id: 9, nome: 'Empresa 9', cnpj: '12345678000109', inscricaoMunicipal: 'IM9', cpfResponsavel: '12345678909', senhaIss: 'senha9', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 9', emailsDestinatarios: ['email9@empresa.com', 'contato9@empresa.com'] },
+      { id: 10, nome: 'Empresa 10', cnpj: '12345678000110', inscricaoMunicipal: 'IM10', cpfResponsavel: '12345678910', senhaIss: 'senha10', aceites: true, encerrar: false, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 10', emailsDestinatarios: ['email10@empresa.com', 'contato10@empresa.com'] },
+      { id: 11, nome: 'Empresa 11', cnpj: '12345678000111', inscricaoMunicipal: 'IM11', cpfResponsavel: '12345678911', senhaIss: 'senha11', aceites: true, encerrar: false, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 11', emailsDestinatarios: ['email11@empresa.com', 'contato11@empresa.com'] },
+      { id: 12, nome: 'Empresa 12', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
+      // Continue para as outras 8 empresas...
+    ];
     console.log(this.empresas)
 
 
@@ -538,6 +564,18 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     console.log(this.usuarios)
 
     this.clientes= [
+      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
       { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
       { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
       { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
