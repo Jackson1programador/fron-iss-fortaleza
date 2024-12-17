@@ -1,6 +1,6 @@
 import { UsuarioParaCadastro } from 'src/app/interface/UsuarioParaCadastro';
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef   } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { EmpresaCadastro } from 'src/app/interface/EmpresaParaCadastro';
 import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
 import { Cliente } from 'src/app/interface/cliente';
@@ -15,7 +15,8 @@ import { Cliente } from 'src/app/interface/cliente';
 export class CadastroComponent implements OnInit {
 
 // ********Inicio dos dados compartilhados ***********************************************************
-coordenacoes: string[] = ['Coordenação 1', 'Coordenação 2', 'Coordenação 3'];
+// essa coordencao e usado na empresa e no usuario
+coordenacoes: string[] = [];
 
 constructor(private fb: FormBuilder, private sharedService: SharedService) {
   this.passwordForm = this.fb.group({
@@ -37,6 +38,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     gerarGuia: [{ value: false, disabled: true }],
     enviarEmail: [{ value: false, disabled: true }],
     coordenacao: [{ value: '', disabled: true }, Validators.required],
+    emailsDestinatarios: this.fb.array([this.criarEmailControl(true)])
   });
 
 
@@ -45,15 +47,11 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     nome: [{ value: '', disabled: true }, Validators.required],
     coordenacao: [{ value: '', disabled: true }, Validators.required],
     email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
-    isCoordenador: [{ value: false, disabled: true }],
-    isUsuarioMaster: [{ value: false, disabled: true }]
+     //isCoordenador: [{ value: false, disabled: true }],
+     //isUsuarioMaster: [{ value: false, disabled: true }]
+    nivel: [{ value: '', disabled: true }, Validators.required],
   })
-   // Monitorando mudanças nos campos isCoordenador
-   this.formularioUsuario.get('isCoordenador')?.valueChanges.subscribe((isCoordenador) => {
-    this.updateCoordenacaoStatus();
-  });
- // Monitorando mudanças nos campos isUsuarioMaster
-  this.formularioUsuario.get('isUsuarioMaster')?.valueChanges.subscribe((isUsuarioMaster) => {
+  this.formularioUsuario.get('nivel')?.valueChanges.subscribe(() => {
     this.updateCoordenacaoStatus();
   });
 
@@ -148,6 +146,12 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
   formularioEmpresa: FormGroup;
   hidePassword = true;
   botaoDesabilitarCanselarEmpresa: boolean = true;
+  botaoDesabilitarIncluirEmailEmpresa: boolean = true;
+  controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar: boolean = false;
+  emailsLista: string[] = [];
+  // Control para o input de novo email
+  novoEmail = new FormControl('', [Validators.required, Validators.email]);
+
 
   selecionaEmpresa(empresa: any) {
     console.log (empresa)
@@ -170,6 +174,9 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.desativarFormularioEmpresa()
     this.resetEmpresa()
     this.botaoDesabilitarCanselarEmpresa = true
+    this.botaoDesabilitarIncluirEmailEmpresa = true
+    this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = false
+    this.emailsLista = []
   }
 
   onDeleteEmpresa() {
@@ -183,6 +190,10 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
       console.log('Dados do formulário foram excluídos.');
       this.desativarFormularioEmpresa()
       this.resetEmpresa()
+      this.botaoDesabilitarCanselarEmpresa = true
+      this.botaoDesabilitarIncluirEmailEmpresa = true
+      this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = false
+      this.emailsLista = []
     }
   }
 
@@ -190,12 +201,16 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.resetEmpresa()
     this.ativarFormularioEmpresa()
     this.botaoDesabilitarCanselarEmpresa = false
+    this.botaoDesabilitarIncluirEmailEmpresa = false
+    this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = true
   }
 
   editarFormularioEmpresa() {
     if (this.existeEmpresaSelecionada()) {
      this.ativarFormularioEmpresa()
      this.botaoDesabilitarCanselarEmpresa = false
+     this.botaoDesabilitarIncluirEmailEmpresa = false
+     this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = true
     } else {
       alert('Selecione uma empresa para editar.');
     }
@@ -205,6 +220,9 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.desativarFormularioEmpresa()
     this.resetEmpresa()
     this.botaoDesabilitarCanselarEmpresa = true
+    this.botaoDesabilitarIncluirEmailEmpresa = true
+    this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = false
+    this.emailsLista = []
   }
 
   ativarFormularioEmpresa(): void {
@@ -249,7 +267,12 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
   // Verifica se o botão Salvar deve ser desabilitado
   naoPodeSalvarEmpresa(): boolean {
-    return !this.formularioEmpresa.valid; // Desabilita se o formulário é inválido
+    console.log(this.formularioEmpresa.valid)
+    if(this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar) {
+      return !this.formularioEmpresa.valid; // Desabilita se o formulário é inválido
+    }
+    return true
+
   }
 
   permitirSomenteNumerosFormularioEmpresa(event: KeyboardEvent): void {
@@ -258,6 +281,77 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
       event.preventDefault();
       alert('Somente números são permitidos.');
     }
+  }
+
+  get emails(): FormArray {
+    return this.formularioEmpresa.get('emailsDestinatarios') as FormArray;
+  }
+
+  // Criar controle de email
+  criarEmailControl(disabled: boolean = false): FormControl {
+    return this.fb.control(
+      { value: '', disabled: disabled }, // Controle desabilitado inicialmente
+      [Validators.required, Validators.email]
+    );
+  }
+
+
+
+  // Adicionar novo email
+  adicionarEmail() {
+    // Verifica se há espaço para adicionar mais emails
+    if (this.emailsLista.length >= 10) {
+      alert("Só é permitido cadastrar no máximo 10 e-mails!");
+      return;
+    }
+
+    // Verifica se o email é válido
+    if (this.novoEmail.valid) {
+      const novoEmail = this.novoEmail.value?.trim();
+
+      if (novoEmail && !this.emailsLista.includes(novoEmail)) {
+        console.log(novoEmail)
+        console.log(this.emailsLista)
+        this.emailsLista.push(novoEmail); // Adiciona o email na lista
+
+        this.novoEmail.reset(); // Limpa o campo de input
+        this.formularioEmpresa.patchValue({
+          emailsDestinatarios: this.emailsLista,
+        });
+        console.log(this.emailsLista)
+        console.log(this.formularioEmpresa)
+      } else {
+        alert("Este email já foi adicionado à lista!");
+      }
+    } else {
+      alert("Por favor, insira um email válido antes de adicionar!");
+    }
+  }
+
+  // Remover email
+  removerEmail(index: number) {
+    this.emails.removeAt(index);
+  }
+
+  // Habilitar o FormArray de emails
+  habilitarEmails() {
+    this.emails.enable();
+  }
+
+  verificarEmailValido(email: any): void {
+    if(this.emailsLista.length < 10) {
+      if (email.status == "INVALID") {
+        console.log("email invalido")
+        this.botaoDesabilitarIncluirEmailEmpresa = true
+      } else {
+        console.log("email valido")
+        this.botaoDesabilitarIncluirEmailEmpresa = false
+      }
+    }
+  }
+
+  removerEmailSalvo(index: number) {
+    this.emailsLista.splice(index, 1); // Remove o email da lista
   }
   // ********final do cadastro empresa ***********************************************************
 
@@ -272,6 +366,8 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
   usuarios: UsuarioParaCadastro[] = [];
   formularioUsuario: FormGroup;
   botaoDesabilitarCanselarUsuario: boolean = true;
+  controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar: boolean = false;
+  niveis: string[] = ['assistente', 'analista', 'coordenador', 'master', 'GM'];
 
 
 
@@ -291,6 +387,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.desativarFormularioUsuario()
     this.resetUsuario()
     this.botaoDesabilitarCanselarUsuario = true
+    this.controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar = false
   }
 
   onDeleteUsuario() {
@@ -304,6 +401,8 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
       console.log('Dados do formulário foram excluídos.');
       this.desativarFormularioUsuario()
       this.resetUsuario()
+      this.botaoDesabilitarCanselarUsuario = true
+      this.controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar = false
     }
   }
 
@@ -311,12 +410,14 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.resetUsuario()
     this.ativarFormularioUsuario()
     this.botaoDesabilitarCanselarUsuario = false
+    this.controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar = true
   }
 
   editarFormularioUsuario() {
     if (this.existeUsuarioSelecionada()) {
      this.ativarFormularioUsuario()
      this.botaoDesabilitarCanselarUsuario = false
+     this.controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar = true
     } else {
       alert('Selecione um usuario para editar.');
     }
@@ -325,6 +426,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.desativarFormularioUsuario()
     this.resetUsuario()
     this.botaoDesabilitarCanselarUsuario = true
+    this.controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar = false
   }
 
   ativarFormularioUsuario(): void {
@@ -365,7 +467,13 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
   // Verifica se o botão Salvar deve ser desabilitado
   naoPodeSalvarUsuario(): boolean {
-    return !this.formularioUsuario.valid; // Desabilita se o formulário é inválido
+    console.log(this.formularioUsuario)
+    console.log(this.formularioUsuario.valid)
+    if(this.controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar){
+      return !this.formularioUsuario.valid; // Desabilita se o formulário é inválido
+    }
+    return true
+
   }
 
   naoPodeCancelarUsuario(): boolean {
@@ -373,15 +481,16 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
   }
 
    // Função para atualizar o status do campo coordenacao
-  private updateCoordenacaoStatus(): void {
-    const isCoordenador = this.formularioUsuario.get('isCoordenador')?.value;
-    const isUsuarioMaster = this.formularioUsuario.get('isUsuarioMaster')?.value;
-    const coordenacaoControl = this.formularioUsuario.get('coordenacao');
-    if (isCoordenador || isUsuarioMaster) {
-      this.formularioUsuario.get('coordenacao')?.disable(); // Desabilita o campo
-      coordenacaoControl?.reset();  // Limpa o valor do campo
+   private updateCoordenacaoStatus(): void {
+    const nivel = this.formularioUsuario.get('nivel')?.value; // Obtém o valor do campo nivel
+    const coordenacaoControl = this.formularioUsuario.get('coordenacao'); // Referência ao campo coordenacao
+
+    // Verifica se nivel é 'coordenador', 'master' ou 'GM'
+    if (nivel === 'coordenador' || nivel === 'master' || nivel === 'GM') {
+      coordenacaoControl?.disable(); // Desabilita o campo coordenacao
+      coordenacaoControl?.reset();   // Limpa o valor do campo coordenacao
     } else {
-      this.formularioUsuario.get('coordenacao')?.enable(); // Habilita o campo
+      coordenacaoControl?.enable(); // Habilita o campo coordenacao
     }
   }
 
@@ -400,6 +509,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
   clientes: Cliente[] = [];
   formularioCliente: FormGroup;
   botaoDesabilitarCanselarCliente: boolean = true;
+  controlaBotaoSalvarClienteAtivoSoAposDeClicarEmNovoOuEditar: boolean = false;
 
   selecionaCliente(cliente: any) {
     console.log (cliente)
@@ -418,6 +528,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.desativarFormularioCliente()
     this.resetCliente()
     this.botaoDesabilitarCanselarCliente = true
+    this.controlaBotaoSalvarClienteAtivoSoAposDeClicarEmNovoOuEditar = false
   }
 
   onDeleteCliente() {
@@ -431,6 +542,8 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
       console.log('Dados do formulário foram excluídos.');
       this.desativarFormularioCliente()
       this.resetCliente()
+      this.botaoDesabilitarCanselarCliente = true
+      this.controlaBotaoSalvarClienteAtivoSoAposDeClicarEmNovoOuEditar = false
     }
   }
 
@@ -438,12 +551,14 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.resetCliente()
     this.ativarFormularioCliente()
     this.botaoDesabilitarCanselarCliente = false
+    this.controlaBotaoSalvarClienteAtivoSoAposDeClicarEmNovoOuEditar = true
   }
 
   editarFormularioCliente() {
     if (this.existeClienteSelecionada()) {
      this.ativarFormularioCliente()
      this.botaoDesabilitarCanselarCliente = false
+     this.controlaBotaoSalvarClienteAtivoSoAposDeClicarEmNovoOuEditar = true
     } else {
       alert('Selecione um cliente para editar.');
     }
@@ -452,6 +567,7 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
     this.desativarFormularioCliente()
     this.resetCliente()
     this.botaoDesabilitarCanselarCliente = true
+    this.controlaBotaoSalvarClienteAtivoSoAposDeClicarEmNovoOuEditar = false
   }
 
   ativarFormularioCliente(): void {
@@ -493,7 +609,11 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
   // Verifica se o botão Salvar deve ser desabilitado
   naoPodeSalvarCliente(): boolean {
-    return !this.formularioCliente.valid; // Desabilita se o formulário é inválido
+    if(this.controlaBotaoSalvarClienteAtivoSoAposDeClicarEmNovoOuEditar) {
+      return !this.formularioCliente.valid; // Desabilita se o formulário é inválido
+    }
+    return true
+
   }
 
   naoPodeCancelarCliente(): boolean {
@@ -553,34 +673,54 @@ constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
 
     this.usuarios = [
-      { id: 1, nome: 'Coordenador 1', isCoordenador: false, coordenacao: 'Coordenação 1', email: 'teste@gmail', isUsuarioMaster: true },
-      { id: 2, nome: 'Coordenador 2', isCoordenador: false, coordenacao: 'Coordenação 1', email: 'teste@gmail', isUsuarioMaster: false},
-      { id: 3, nome: 'Coordenador 3', isCoordenador: true, coordenacao: 'Coordenação 2', email: 'teste@gmail', isUsuarioMaster: false},
-      { id: 4, nome: 'Coordenador 4', isCoordenador: false, coordenacao: 'Coordenação 1', email: 'teste@gmail', isUsuarioMaster: false},
-      { id: 5, nome: 'Coordenador 5', isCoordenador: true, coordenacao: 'Coordenação 2', email: 'teste@gmail', isUsuarioMaster: false},
+      { id: 1, nome: 'Jackson', coordenacao: 'Coordenação 1', email: 'teste@gmail', nivel: 'assistente' },
+      { id: 2, nome: 'Sueli', coordenacao: 'Coordenação 1', email: 'teste@gmail',  nivel: 'analista' },
+      { id: 3, nome: 'Ediana', coordenacao: 'Coordenação 2', email: 'teste@gmail', nivel: 'assistente' },
+      { id: 4, nome: 'Adalberto', coordenacao: 'Coordenação 1', email: 'teste@gmail',  nivel: 'master' },
+      { id: 5, nome: 'Edilsom', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'coordenador' },
+      { id: 6, nome: 'wesley', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'analista' },
+      { id: 7, nome: 'anderson', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'analista' },
+      { id: 8, nome: 'Raphael', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'analista' },
+      { id: 9, nome: 'Diana', coordenacao: 'Coordenação 2', email: 'teste@gmail', nivel: 'analista' },
+      { id: 10, nome: 'Géssica', coordenacao: 'Coordenação 2', email: 'teste@gmail', nivel: 'assistente' },
+      { id: 11, nome: 'Flavia', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'assistente' },
+      { id: 12, nome: 'Cleoton', coordenacao: 'Coordenação 2', email: 'teste@gmail', nivel: 'assistente' },
+      { id: 13, nome: 'Rosiane', coordenacao: 'Coordenação 2', email: 'teste@gmail', nivel: 'assistente' },
+      { id: 14, nome: 'Janacle', coordenacao: 'Coordenação 2', email: 'teste@gmail', nivel: 'assistente' },
+      { id: 15, nome: 'Marla', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'analista' },
+      { id: 16, nome: 'Ilana', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'analista' },
+      { id: 17, nome: 'Marcio', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'coordenador' },
 
     ];
 
     console.log(this.usuarios)
+    this.coordenacoes = [
+      ...new Set(
+        this.usuarios
+          .filter(usuario => usuario.nivel === 'coordenador' || usuario.nivel === 'master')
+          .map(usuario => usuario.nome)
+      )
+    ];
+    console.log(this.coordenacoes)
 
     this.clientes= [
-      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'Formma', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'master', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'atre', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
-      { id: 1, nome: 'fortes', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
-      { id: 1, nome: 'marphe', cnpj: '1111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true }
+      { id: 1, nome: 'Formma', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'Formma', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'Formma', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'Formma', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'master', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'atre', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true },
+      { id: 1, nome: 'fortes', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
+      { id: 1, nome: 'marphe', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true }
    ]
 
 

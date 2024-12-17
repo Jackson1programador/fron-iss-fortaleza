@@ -1,10 +1,11 @@
 export interface UsuarioParaCadastro {
   id: number
   nome: string
-  isCoordenador: boolean
+   // isCoordenador: boolean
   coordenacao: string
   email: string
-  isUsuarioMaster: boolean
+  //  isUsuarioMaster: boolean
+  nivel: string
 
 
 }

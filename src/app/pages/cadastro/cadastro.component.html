@@ -165,6 +165,58 @@
               </mat-form-field>
             </div>
           </div>
+
+          <div class="formulario-direito" [formGroup]="formularioEmpresa">
+
+            <div formArrayName="emailsDestinatarios" class="email-section">
+              <!-- Input e botão de salvar -->
+              <div class="email-input-container">
+                <mat-form-field appearance="outline" class="email-input">
+                  <mat-label>Digite um email</mat-label>
+                  <input
+                    matInput
+                    [formControl]="novoEmail"
+                    placeholder="Insira o email"
+                    (input)="verificarEmailValido(novoEmail)"
+                  />
+                </mat-form-field>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="adicionarEmail()"
+                  [disabled]="botaoDesabilitarIncluirEmailEmpresa">
+                  Salvar
+                </button>
+              </div>
+
+              <!-- Tabela com emails salvos -->
+              <div class="email-table-container">
+                <table class="email-table">
+
+                  <thead>
+                    <tr>
+                      <th>Excluir</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let email of emailsLista; let i = index">
+                      <td>
+                        <button (click)="removerEmailSalvo(i)" class="delete-button">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                      <td>{{ email }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+
+
         </div>
 
         <div class="formulario-botoes">
@@ -230,12 +282,21 @@
               placeholder="Insira o seu e-mail"
               class="input-informacao">
             </mat-form-field>
-         </div>
 
-            <!-- Lado Direito - Checkboxes -->
-          <div class="formulario-direito" [formGroup]="formularioUsuario">
-            <mat-checkbox formControlName="isCoordenador">É coordenador ?</mat-checkbox>
-            <mat-checkbox formControlName="isUsuarioMaster">É usuário master ?</mat-checkbox>
+
+            <div class="div-select">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Nível</mat-label>
+                <mat-select formControlName="nivel">
+                  <mat-option *ngFor="let nivel of niveis" [value]="nivel">
+                    {{ nivel }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formularioUsuario.get('nivel')?.hasError('required')">
+                  O nível é obrigatória.
+                </mat-error>
+              </mat-form-field>
+            </div>
 
             <div class="div-select">
               <mat-form-field appearance="outline" class="full-width">
@@ -250,6 +311,23 @@
                 </mat-error>
               </mat-form-field>
             </div>
+
+
+
+
+         </div>
+
+            <!-- Lado Direito - Checkboxes -->
+          <div class="formulario-direito" [formGroup]="formularioUsuario">
+            <!--
+            <mat-checkbox formControlName="isCoordenador">É coordenador ?</mat-checkbox>
+            <mat-checkbox formControlName="isUsuarioMaster">É usuário master ?</mat-checkbox>
+             -->
+
+
+
+
+
           </div>
         </div>
 

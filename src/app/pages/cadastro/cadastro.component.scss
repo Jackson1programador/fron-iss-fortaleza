@@ -90,6 +90,16 @@ mat-card-title {
 
 
 /* inicio estilo do cadastro empresa ************************** */
+.email-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.email-field button {
+  margin-left: 10px;
+}
+
 .body-cadastro-empresa {
   width: 100%;
   height: 100%;
@@ -263,3 +273,47 @@ button {
   border: 3px solid #f1f1f1; /* Adiciona uma borda ao polegar para dar um efeito "flutuante" */
 }
 
+
+.email-section {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.email-input-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.email-input {
+  flex: 1;
+}
+
+.email-table-container {
+  max-height: 200px; /* Limite para a tabela */
+  max-height: 200px;
+  overflow-y: auto; /* Rolagem se o conteúdo exceder o limite */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.email-table {
+  width: 100%;
+}
+
+.email-table th,
+.email-table td {
+  text-align: left;
+  padding: 8px;
+}
+
+.email-table button {
+  color: #f44336; /* Cor para o botão de excluir */
+  margin: 0 0px;
+  padding: 0px 0px;
+}
