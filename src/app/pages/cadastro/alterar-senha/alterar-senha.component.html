@@ -9,7 +9,6 @@
         <button type="button" mat-icon-button matSuffix (click)="hideCurrentPassword = !hideCurrentPassword">
           <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-      <!--   <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">Senha atual é obrigatória</mat-error> -->
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -18,7 +17,6 @@
         <button type="button" mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword">
           <mat-icon>{{ hideNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-      <!--   <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('required')">Nova senha é obrigatória</mat-error> -->
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -27,8 +25,6 @@
         <button type="button" mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
           <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-      <!--   <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('required')">Confirme sua nova senha</mat-error> -->
-      <!--   <mat-error *ngIf="passwordForm.hasError('passwordsDontMatch')">As senhas não coincidem</mat-error> -->
       </mat-form-field>
 
       <button mat-raised-button color="primary" [disabled]="passwordForm.invalid" [attr.id]="!passwordForm.invalid ? 'btn-alterar-senha' : null" >Atualizar Senha</button>
