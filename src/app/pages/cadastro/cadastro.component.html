@@ -8,6 +8,9 @@
   </div>
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba1'">
+
+
+ <!--
     <div class="password-update-container">
       <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
         <mat-card class="password-card">
@@ -19,7 +22,7 @@
             <button type="button" mat-icon-button matSuffix (click)="hideCurrentPassword = !hideCurrentPassword">
               <mat-icon>{{ hideCurrentPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-          <!--   <mat-error *ngIf="passwordForm.get('currentPassword')?.hasError('required')">Senha atual é obrigatória</mat-error> -->
+
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
@@ -28,7 +31,7 @@
             <button type="button" mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword">
               <mat-icon>{{ hideNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-          <!--   <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('required')">Nova senha é obrigatória</mat-error> -->
+
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="full-width">
@@ -37,15 +40,21 @@
             <button type="button" mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
               <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-          <!--   <mat-error *ngIf="passwordForm.get('confirmPassword')?.hasError('required')">Confirme sua nova senha</mat-error> -->
-          <!--   <mat-error *ngIf="passwordForm.hasError('passwordsDontMatch')">As senhas não coincidem</mat-error> -->
+
           </mat-form-field>
 
           <button mat-raised-button color="primary" [disabled]="passwordForm.invalid" [attr.id]="!passwordForm.invalid ? 'btn-alterar-senha' : null" >Atualizar Senha</button>
         </mat-card>
       </form>
-    </div>
 
+
+
+    </div>
+  -->
+
+  <div class="password-update-container">
+  <app-alterar-senha></app-alterar-senha>
+  </div>
 
   </div>
 
@@ -53,6 +62,7 @@
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba2'">
 
+    <!--
     <div class="body-cadastro-empresa">
 
 
@@ -77,7 +87,7 @@
       <div class="container-informacao-empresa">
         <div class="formulario-container" [formGroup]="formularioEmpresa">
 
-          <!-- Lado Esquerdo - Inputs -->
+           Lado Esquerdo - Inputs
           <div class="formulario-esquerdo">
             <mat-form-field appearance="outline" class="full-width custom-input" >
               <mat-error *ngIf="formularioEmpresa.get('nome')?.hasError('required')">
@@ -143,7 +153,7 @@
             </mat-form-field>
           </div>
 
-            <!-- Lado Direito - Checkboxes -->
+            Lado Direito - Checkboxes
           <div class="formulario-direito" [formGroup]="formularioEmpresa">
             <mat-checkbox formControlName="aceites">Aceites</mat-checkbox>
             <mat-checkbox formControlName="encerrar">Encerrar</mat-checkbox>
@@ -169,7 +179,7 @@
           <div class="formulario-direito" [formGroup]="formularioEmpresa">
 
             <div formArrayName="emailsDestinatarios" class="email-section">
-              <!-- Input e botão de salvar -->
+               Input e botão de salvar
               <div class="email-input-container">
                 <mat-form-field appearance="outline" class="email-input">
                   <mat-label>Digite um email</mat-label>
@@ -189,7 +199,7 @@
                 </button>
               </div>
 
-              <!-- Tabela com emails salvos -->
+              Tabela com emails salvos
               <div class="email-table-container">
                 <table class="email-table">
 
@@ -228,6 +238,11 @@
         </div>
       </div>
     </div>
+  -->
+
+    <div>
+      <app-empresa></app-empresa>
+    </div>
 
   </div>
 
@@ -235,6 +250,7 @@
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba3'">
 
+    <!--
     <div class="body-cadastro-usuario">
 
 
@@ -259,7 +275,7 @@
       <div class="container-informacao-empresa">
         <div class="formulario-container" [formGroup]="formularioUsuario">
 
-          <!-- Lado Esquerdo - Inputs -->
+          Lado Esquerdo - Inputs
           <div class="formulario-esquerdo">
             <mat-form-field appearance="outline" class="full-width custom-input" >
               <mat-error *ngIf="formularioUsuario.get('nome')?.hasError('required')">
@@ -317,12 +333,12 @@
 
          </div>
 
-            <!-- Lado Direito - Checkboxes -->
+            Lado Direito - Checkboxes
           <div class="formulario-direito" [formGroup]="formularioUsuario">
-            <!--
+
             <mat-checkbox formControlName="isCoordenador">É coordenador ?</mat-checkbox>
             <mat-checkbox formControlName="isUsuarioMaster">É usuário master ?</mat-checkbox>
-             -->
+
 
 
 
@@ -338,15 +354,19 @@
           <button mat-raised-button color="warn" (click)="onDeleteUsuario()">Excluir</button>
           <button mat-raised-button color="warn" (click)="cancelarUsuario()" [disabled]="botaoDesabilitarCanselarUsuario">Cancelar</button>
         </div>
-      </div>
-    </div>
 
+
+
+
+    </div>
+   -->
+    <app-usuario></app-usuario>
   </div>
 
 
 
   <div class="conteudo" *ngIf="abaAtiva === 'aba4'">
-    <div class="body-cadastro-usuario">
+    <!-- <div class="body-cadastro-usuario">
 
       <div class="container-list-usuario">
         <table>
@@ -366,7 +386,7 @@
        <div class="container-informacao-empresa">
         <div class="formulario-container" [formGroup]="formularioCliente">
 
-          <!-- Lado Esquerdo - Inputs -->
+           Lado Esquerdo - Inputs
           <div class="formulario-esquerdo">
             <mat-form-field appearance="outline" class="full-width custom-input" >
               <mat-error *ngIf="formularioCliente.get('nome')?.hasError('required')">
@@ -389,7 +409,7 @@
               placeholder="Insira o CNPJ"
               class="input-informacao"
               mask="00.000.000/0000-00"
-              (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
+              (keypress)="permitirSomenteNumerosFormularioCliente($event)">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width custom-input">
@@ -415,7 +435,7 @@
             </mat-form-field>
          </div>
 
-            <!-- Lado Direito - Checkboxes -->
+            Lado Direito - Checkboxes
           <div class="formulario-direito" [formGroup]="formularioCliente">
             <mat-checkbox formControlName="isCoordenadorUsuarioMaster">Usuário master é coordenador ?</mat-checkbox>
             <mat-checkbox formControlName="ativo">Cliente ativo ?</mat-checkbox>
@@ -435,8 +455,8 @@
 
 
 
-    </div>
-
+    </div> -->
+    <app-cliente></app-cliente>
 
 
   </div>

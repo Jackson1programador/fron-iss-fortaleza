@@ -9,6 +9,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ErroComponent } from './pages/erro/erro.component';
 import { CadastroComponent } from './pages/cadastro/cadastro.component';
+import { AlterarSenhaComponent } from './pages/cadastro/alterar-senha/alterar-senha.component';
 import { MenuComponent } from './shared/menu/menu.component';
 import { RodapeComponent } from './shared/rodape/rodape.component';
 import { RecuperarSenhaComponent } from './pages/recuperar-senha/recuperar-senha.component';
@@ -28,6 +29,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EmpresaComponent } from './pages/cadastro/empresa/empresa.component';
+import { UsuarioComponent } from './pages/cadastro/usuario/usuario.component';
+import { ClienteComponent } from './pages/cadastro/cliente/cliente.component';
+
 
 @NgModule({
   declarations: [
@@ -40,10 +45,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MenuComponent,
     RodapeComponent,
     RecuperarSenhaComponent,
-    ContatoComponent
+    ContatoComponent,
+    AlterarSenhaComponent,
+    EmpresaComponent,
+    UsuarioComponent,
+    ClienteComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MatIconModule,
     FormsModule,
@@ -55,7 +65,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatInputModule,
     MatButtonModule,
     MatToolbarModule,
-    ReactiveFormsModule,
     MatCardModule,
     MatCheckboxModule,
     BrowserAnimationsModule,

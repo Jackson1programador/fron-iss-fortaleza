@@ -1,0 +1,175 @@
+<div class="body-cadastro-empresa">
+
+
+
+  <div class="container-list-empresa">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let empresa of empresas">
+          <td (click)="selecionaEmpresa(empresa)"> {{empresa.nome}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <div class="container-informacao-empresa">
+    <div class="formulario-container" [formGroup]="formularioEmpresa">
+
+      <!-- Lado Esquerdo - Inputs -->
+      <div class="formulario-esquerdo">
+        <mat-form-field appearance="outline" class="full-width custom-input" >
+          <mat-error *ngIf="formularioEmpresa.get('nome')?.hasError('required')">
+            O nome é obrigatório.
+          </mat-error>
+          <mat-label>Nome</mat-label>
+          <input #nomeInput matInput formControlName="nome" placeholder="Insira o nome" class="input-informacao">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width custom-input">
+          <mat-error *ngIf="formularioEmpresa.get('cnpj')?.hasError('required')">
+            O CNPJ é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="formularioEmpresa.get('cnpj')?.hasError('minlength')">
+            O CNPJ deve ter 14 caracteres.
+          </mat-error>
+          <mat-label>CNPJ</mat-label>
+          <input
+          matInput formControlName="cnpj"
+          placeholder="Insira o CNPJ"
+          class="input-informacao"
+          mask="00.000.000/0000-00"
+          (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width custom-input">
+          <mat-error *ngIf="formularioEmpresa.get('inscricaoMunicipal')?.hasError('required')">
+            A inscrição municipal é obrigatório.
+          </mat-error>
+          <mat-label>Inscrição Municipal</mat-label>
+          <input
+          matInput formControlName="inscricaoMunicipal"
+          placeholder="Insira a inscrição"
+          class="input-informacao"
+          (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width custom-input">
+          <mat-error *ngIf="formularioEmpresa.get('cpfResponsavel')?.hasError('required')">
+            O CPF é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="formularioEmpresa.get('cpfResponsavel')?.hasError('minlength')">
+            O CPF deve ter 11 caracteres.
+          </mat-error>
+          <mat-label>CPF do Responsável</mat-label>
+          <input
+          matInput formControlName="cpfResponsavel"
+          placeholder="Insira o CPF"
+          class="input-informacao"
+          mask="000.000.000-00"
+          (keypress)="permitirSomenteNumerosFormularioEmpresa($event)">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width custom-input">
+          <mat-error *ngIf="formularioEmpresa.get('senhaIss')?.hasError('required')">
+            A senha é obrigatório.
+          </mat-error>
+          <mat-label>Senha ISS Fortaleza</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="senhaIss">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+        <!-- Lado Direito - Checkboxes -->
+      <div class="formulario-direito" [formGroup]="formularioEmpresa">
+        <mat-checkbox formControlName="aceites">Aceites</mat-checkbox>
+        <mat-checkbox formControlName="encerrar">Encerrar</mat-checkbox>
+        <mat-checkbox formControlName="downloadPlanilha">Download da Planilha</mat-checkbox>
+        <mat-checkbox formControlName="gerarGuia">Gerar Guia</mat-checkbox>
+        <mat-checkbox formControlName="enviarEmail">Enviar Email</mat-checkbox>
+
+        <div class="div-select">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Coordenação</mat-label>
+            <mat-select formControlName="coordenacao">
+              <mat-option *ngFor="let coordenacao of coordenacoes" [value]="coordenacao">
+                {{ coordenacao }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formularioEmpresa.get('coordenacao')?.hasError('required')">
+              A coordenação é obrigatória.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="formulario-direito" [formGroup]="formularioEmpresa">
+
+        <div formArrayName="emailsDestinatarios" class="email-section">
+          <!-- Input e botão de salvar -->
+          <div class="email-input-container">
+            <mat-form-field appearance="outline" class="email-input">
+              <mat-label>Digite um email</mat-label>
+              <input
+                matInput
+                [formControl]="novoEmail"
+                placeholder="Insira o email"
+                (input)="verificarEmailValido(novoEmail)"
+              />
+            </mat-form-field>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="adicionarEmail()"
+              [disabled]="botaoDesabilitarIncluirEmailEmpresa">
+              Salvar
+            </button>
+          </div>
+
+          <!-- Tabela com emails salvos -->
+          <div class="email-table-container">
+            <table class="email-table">
+
+              <thead>
+                <tr>
+                  <th>Excluir</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let email of emailsLista; let i = index">
+                  <td>
+                    <button (click)="removerEmailSalvo(i)" class="delete-button">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                  <td>{{ email }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+
+    <div class="formulario-botoes">
+      <button mat-raised-button color="primary" (click)="novoFormularioEmpresa()">Novo</button>
+      <button mat-raised-button color="primary" (click)="editarFormularioEmpresa()">Editar</button>
+      <button mat-raised-button color="primary" (click)="salvarEmpresa()" [disabled]="naoPodeSalvarEmpresa()">Salvar</button>
+      <button mat-raised-button color="warn" (click)="onDeleteEmpresa()">Excluir</button>
+      <button mat-raised-button color="warn" (click)="cancelarEmpresa()" [disabled]="botaoDesabilitarCanselarEmpresa">Cancelar</button>
+    </div>
+  </div>
+</div>

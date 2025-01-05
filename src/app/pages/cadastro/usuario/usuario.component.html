@@ -1,0 +1,105 @@
+<div class="body-cadastro-usuario">
+  <div class="container-list-usuario">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td (click)="selecionaUsuario(usuario)"> {{usuario.nome}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <div class="container-informacao-empresa">
+    <div class="formulario-container" [formGroup]="formularioUsuario">
+
+      <!-- Lado Esquerdo - Inputs -->
+      <div class="formulario-esquerdo">
+        <mat-form-field appearance="outline" class="full-width custom-input" >
+          <mat-error *ngIf="formularioUsuario.get('nome')?.hasError('required')">
+            O nome é obrigatório.
+          </mat-error>
+          <mat-label>Nome</mat-label>
+          <input #nomeInput matInput formControlName="nome" placeholder="Insira o nome" class="input-informacao">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width custom-input">
+          <mat-error *ngIf="formularioUsuario.get('email')?.hasError('required')">
+            O e-mail é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="formularioUsuario.get('email')?.hasError('email')">
+            O e-mail inserido não é válido.
+          </mat-error>
+          <mat-label>E-mail</mat-label>
+          <input
+          matInput formControlName="email"
+          placeholder="Insira o seu e-mail"
+          class="input-informacao">
+        </mat-form-field>
+
+
+        <div class="div-select">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nível</mat-label>
+            <mat-select formControlName="nivel">
+              <mat-option *ngFor="let nivel of niveis" [value]="nivel">
+                {{ nivel }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formularioUsuario.get('nivel')?.hasError('required')">
+              O nível é obrigatória.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="div-select">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Coordenação</mat-label>
+            <mat-select formControlName="coordenacao">
+              <mat-option *ngFor="let coordenacao of coordenacoes" [value]="coordenacao">
+                {{ coordenacao }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formularioUsuario.get('coordenacao')?.hasError('required')">
+              A coordenação é obrigatória.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+
+
+
+     </div>
+
+        <!-- Lado Direito - Checkboxes -->
+      <div class="formulario-direito" [formGroup]="formularioUsuario">
+        <!--
+        <mat-checkbox formControlName="isCoordenador">É coordenador ?</mat-checkbox>
+        <mat-checkbox formControlName="isUsuarioMaster">É usuário master ?</mat-checkbox>
+        -->
+
+
+
+
+
+      </div>
+
+    </div>
+
+
+    <div class="formulario-botoes">
+      <button mat-raised-button color="primary" (click)="novoFormularioUsuario()">Novo</button>
+      <button mat-raised-button color="primary" (click)="editarFormularioUsuario()">Editar</button>
+      <button mat-raised-button color="primary" (click)="salvarUsuario()" [disabled]="naoPodeSalvarUsuario()">Salvar</button>
+      <button mat-raised-button color="warn" (click)="onDeleteUsuario()">Excluir</button>
+      <button mat-raised-button color="warn" (click)="cancelarUsuario()" [disabled]="botaoDesabilitarCanselarUsuario">Cancelar</button>
+    </div>
+</div>
+
+
