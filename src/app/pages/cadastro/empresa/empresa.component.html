@@ -19,10 +19,17 @@
 
 
 
+
   <div class="container-informacao-empresa">
+
+
+
+
     <div class="formulario-container" [formGroup]="formularioEmpresa">
 
-      <!-- Lado Esquerdo - Inputs -->
+
+
+
       <div class="formulario-esquerdo">
         <mat-form-field appearance="outline" class="full-width custom-input" >
           <mat-error *ngIf="formularioEmpresa.get('nome')?.hasError('required')">
@@ -88,8 +95,11 @@
         </mat-form-field>
       </div>
 
-        <!-- Lado Direito - Checkboxes -->
-      <div class="formulario-direito" [formGroup]="formularioEmpresa">
+
+
+
+
+      <div class="formulario-central" [formGroup]="formularioEmpresa">
         <mat-checkbox formControlName="aceites">Aceites</mat-checkbox>
         <mat-checkbox formControlName="encerrar">Encerrar</mat-checkbox>
         <mat-checkbox formControlName="downloadPlanilha">Download da Planilha</mat-checkbox>
@@ -111,10 +121,12 @@
         </div>
       </div>
 
-      <div class="formulario-direito" [formGroup]="formularioEmpresa">
 
+
+
+
+      <div class="formulario-direito" [formGroup]="formularioEmpresa" [class.disabled]="isDivDisabled">
         <div formArrayName="emailsDestinatarios" class="email-section">
-          <!-- Input e botão de salvar -->
           <div class="email-input-container">
             <mat-form-field appearance="outline" class="email-input">
               <mat-label>Digite um email</mat-label>
@@ -157,12 +169,12 @@
             </table>
           </div>
         </div>
-
       </div>
-
-
-
     </div>
+
+
+
+
 
     <div class="formulario-botoes">
       <button mat-raised-button color="primary" (click)="novoFormularioEmpresa()">Novo</button>

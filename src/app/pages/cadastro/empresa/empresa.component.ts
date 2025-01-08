@@ -26,12 +26,12 @@ export class EmpresaComponent implements OnInit {
   // Control para o input de novo email
   novoEmail = new FormControl('', [Validators.required, Validators.email]);
   usuarios: UsuarioParaCadastro[] = []; // por enquanto, pq estou utilizando isso para conseguir os cordenaroes, mas o certo [e fazer uma requisi;'ao s[o pros coredenadores]]
+  isDivDisabled = true; // Variável para controlar se a div está desabilitada
 
   constructor(private fb: FormBuilder, private sharedService: SharedService) {
 
     this.formularioEmpresa = this.fb.group({
       nome: [{ value: '', disabled: true }, Validators.required],
-      //cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14)]],
       cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14) ,Validators.pattern(/^\d{14}$/)]],
       inscricaoMunicipal: [{ value: '', disabled: true }, Validators.required],
       cpfResponsavel: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(11)]],
@@ -71,6 +71,7 @@ export class EmpresaComponent implements OnInit {
     this.botaoDesabilitarIncluirEmailEmpresa = true
     this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = false
     this.emailsLista = []
+    this.isDivDisabled = true
   }
 
   onDeleteEmpresa() {
@@ -88,6 +89,7 @@ export class EmpresaComponent implements OnInit {
       this.botaoDesabilitarIncluirEmailEmpresa = true
       this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = false
       this.emailsLista = []
+      this.isDivDisabled = true
     }
   }
 
@@ -97,6 +99,7 @@ export class EmpresaComponent implements OnInit {
     this.botaoDesabilitarCanselarEmpresa = false
     this.botaoDesabilitarIncluirEmailEmpresa = false
     this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = true
+    this.isDivDisabled = false
   }
 
   editarFormularioEmpresa() {
@@ -105,6 +108,7 @@ export class EmpresaComponent implements OnInit {
      this.botaoDesabilitarCanselarEmpresa = false
      this.botaoDesabilitarIncluirEmailEmpresa = false
      this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = true
+     this.isDivDisabled = false
     } else {
       alert('Selecione uma empresa para editar.');
     }
@@ -117,6 +121,7 @@ export class EmpresaComponent implements OnInit {
     this.botaoDesabilitarIncluirEmailEmpresa = true
     this.controlaBotaoSalvarEmpresaAtivoSoAposDeClicarEmNovoOuEditar = false
     this.emailsLista = []
+    this.isDivDisabled = true
   }
 
   ativarFormularioEmpresa(): void {
@@ -253,10 +258,6 @@ export class EmpresaComponent implements OnInit {
 
 
   ngOnInit() {
-    // Inscreve-se para receber as atualizações de dados do serviço
-    // this.sharedService.currentData$.subscribe(empresasAtualizada => {
-    //  this.empresas = empresasAtualizada;
-    // });
 
     this.empresas = [
       { id: 1, nome: 'Empresa 1', cnpj: '12345678000101', inscricaoMunicipal: 'IM1', cpfResponsavel: '12345678901', senhaIss: 'senha1', aceites: true, encerrar: false, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 1', emailsDestinatarios: ['email1@empresa.com', 'contato1@empresa.com'] },
@@ -271,6 +272,12 @@ export class EmpresaComponent implements OnInit {
       { id: 10, nome: 'Empresa 10', cnpj: '12345678000110', inscricaoMunicipal: 'IM10', cpfResponsavel: '12345678910', senhaIss: 'senha10', aceites: true, encerrar: false, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 10', emailsDestinatarios: ['email10@empresa.com', 'contato10@empresa.com'] },
       { id: 11, nome: 'Empresa 11', cnpj: '12345678000111', inscricaoMunicipal: 'IM11', cpfResponsavel: '12345678911', senhaIss: 'senha11', aceites: true, encerrar: false, downloadPlanilha: true, gerarGuia: false, enviarEmail: true, coordenacao: 'Coordenação 11', emailsDestinatarios: ['email11@empresa.com', 'contato11@empresa.com'] },
       { id: 12, nome: 'Empresa 12', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
+      { id: 13, nome: 'Empresa 13', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
+      { id: 14, nome: 'Empresa 14', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
+      { id: 15, nome: 'Empresa 15', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
+      { id: 16, nome: 'Empresa 16', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
+      { id: 17, nome: 'Empresa 17', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
+      { id: 18, nome: 'Empresa 18', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
       // Continue para as outras 8 empresas...
     ];
     console.log(this.empresas)
@@ -305,7 +312,7 @@ export class EmpresaComponent implements OnInit {
           .map(usuario => usuario.nome)
       )
     ];
-    console.log(this.coordenacoes)
+
 
 
   }
