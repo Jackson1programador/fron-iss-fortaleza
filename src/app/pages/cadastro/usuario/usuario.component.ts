@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { UsuarioParaCadastro } from 'src/app/interface/UsuarioParaCadastro';
-import { OnInit, ViewEncapsulation, ViewChild, ElementRef   } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { EmpresaCadastro } from 'src/app/interface/EmpresaParaCadastro';
-import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
-import { Cliente } from 'src/app/interface/Cliente';
+import { OnInit, ViewChild, ElementRef   } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-usuario',
@@ -21,9 +18,6 @@ export class UsuarioComponent implements OnInit {
   @ViewChild('nomeInput') nomeInput!: ElementRef; // ViewChild para o campo de nome
 
   constructor(private fb: FormBuilder) {
-
-
-
     this.formularioUsuario = this.fb.group({
       nome: [{ value: '', disabled: true }, Validators.required],
       coordenacao: [{ value: '', disabled: true }, Validators.required],
@@ -35,7 +29,6 @@ export class UsuarioComponent implements OnInit {
     this.formularioUsuario.get('nivel')?.valueChanges.subscribe(() => {
       this.updateCoordenacaoStatus();
     });
-
   }
 
   selecionaUsuario(usuario: any) {
@@ -66,6 +59,7 @@ export class UsuarioComponent implements OnInit {
 
     if (confirm(`Tem certeza de que deseja excluir o usuario ${nome} ?`)) {
       console.log('Dados do formulário foram excluídos.');
+      console.log(this.formularioUsuario.value);
       this.desativarFormularioUsuario()
       this.resetUsuario()
       this.botaoDesabilitarCanselarUsuario = true
@@ -134,13 +128,10 @@ export class UsuarioComponent implements OnInit {
 
   // Verifica se o botão Salvar deve ser desabilitado
   naoPodeSalvarUsuario(): boolean {
-    console.log(this.formularioUsuario)
-    console.log(this.formularioUsuario.valid)
     if(this.controlaBotaoSalvarUsuarioAtivoSoAposDeClicarEmNovoOuEditar){
       return !this.formularioUsuario.valid; // Desabilita se o formulário é inválido
     }
     return true
-
   }
 
   naoPodeCancelarUsuario(): boolean {
@@ -181,10 +172,8 @@ export class UsuarioComponent implements OnInit {
       { id: 15, nome: 'Marla', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'analista' },
       { id: 16, nome: 'Ilana', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'analista' },
       { id: 17, nome: 'Marcio', coordenacao: 'Coordenação 2', email: 'teste@gmail',  nivel: 'coordenador' },
-
     ];
 
-    console.log(this.usuarios)
     this.coordenacoes = [
       ...new Set(
         this.usuarios
@@ -192,15 +181,9 @@ export class UsuarioComponent implements OnInit {
           .map(usuario => usuario.nome)
       )
     ];
+
+    console.log(this.usuarios)
     console.log(this.coordenacoes)
-
-
-
-
-
   }
-
-
-
 
 }

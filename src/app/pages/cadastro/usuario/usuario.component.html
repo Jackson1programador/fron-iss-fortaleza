@@ -1,4 +1,5 @@
 <div class="body-cadastro-usuario">
+
   <div class="container-list-usuario">
     <table>
       <thead>
@@ -15,12 +16,12 @@
   </div>
 
 
-
-  <div class="container-informacao-empresa">
+  <div class="container-informacao-usuario">
     <div class="formulario-container" [formGroup]="formularioUsuario">
 
       <!-- Lado Esquerdo - Inputs -->
       <div class="formulario-esquerdo">
+
         <mat-form-field appearance="outline" class="full-width custom-input" >
           <mat-error *ngIf="formularioUsuario.get('nome')?.hasError('required')">
             O nome é obrigatório.
@@ -42,7 +43,6 @@
           placeholder="Insira o seu e-mail"
           class="input-informacao">
         </mat-form-field>
-
 
         <div class="div-select">
           <mat-form-field appearance="outline" class="full-width">
@@ -72,21 +72,10 @@
           </mat-form-field>
         </div>
 
-
-
-
-     </div>
+       </div>
 
         <!-- Lado Direito - Checkboxes -->
       <div class="formulario-direito" [formGroup]="formularioUsuario">
-        <!--
-        <mat-checkbox formControlName="isCoordenador">É coordenador ?</mat-checkbox>
-        <mat-checkbox formControlName="isUsuarioMaster">É usuário master ?</mat-checkbox>
-        -->
-
-
-
-
 
       </div>
 
