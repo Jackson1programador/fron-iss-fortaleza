@@ -280,7 +280,7 @@ export class EmpresaComponent implements OnInit {
       { id: 18, nome: 'Empresa 18', cnpj: '12345678000112', inscricaoMunicipal: 'IM12', cpfResponsavel: '12345678912', senhaIss: 'senha12', aceites: false, encerrar: true, downloadPlanilha: false, gerarGuia: true, enviarEmail: false, coordenacao: 'Coordenação 12', emailsDestinatarios: ['email12@empresa.com', 'contato12@empresa.com'] },
       // Continue para as outras 8 empresas...
     ];
-    console.log(this.empresas)
+
 
 
     this.usuarios = [
@@ -313,7 +313,9 @@ export class EmpresaComponent implements OnInit {
       )
     ];
 
-
+    console.log(this.empresas)
+    console.log(this.usuarios)
+    console.log(this.coordenacoes)
 
   }
 

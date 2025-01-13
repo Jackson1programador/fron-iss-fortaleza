@@ -1,6 +1,6 @@
-<div class="body-cadastro-usuario">
+<div class="body-cadastro-cliente">
 
-  <div class="container-list-usuario">
+  <div class="container-list-cliente">
     <table>
       <thead>
         <tr>
@@ -15,11 +15,12 @@
     </table>
   </div>
 
-   <div class="container-informacao-empresa">
+   <div class="container-informacao-cliente">
     <div class="formulario-container" [formGroup]="formularioCliente">
 
       <!-- Lado Esquerdo - Inputs -->
       <div class="formulario-esquerdo">
+
         <mat-form-field appearance="outline" class="full-width custom-input" >
           <mat-error *ngIf="formularioCliente.get('nome')?.hasError('required')">
             O nome é obrigatório.
@@ -71,8 +72,6 @@
       <div class="formulario-direito" [formGroup]="formularioCliente">
         <mat-checkbox formControlName="isCoordenadorUsuarioMaster">Usuário master é coordenador ?</mat-checkbox>
         <mat-checkbox formControlName="ativo">Cliente ativo ?</mat-checkbox>
-
-
       </div>
     </div>
 
@@ -84,7 +83,5 @@
       <button mat-raised-button color="warn" (click)="cancelarCliente()" [disabled]="botaoDesabilitarCanselarCliente">Cancelar</button>
     </div>
   </div>
-
-
 
 </div>

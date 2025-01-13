@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { UsuarioParaCadastro } from 'src/app/interface/UsuarioParaCadastro';
-import { OnInit, ViewEncapsulation, ViewChild, ElementRef   } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { EmpresaCadastro } from 'src/app/interface/EmpresaParaCadastro';
-import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
+import { OnInit, ViewChild, ElementRef   } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cliente } from 'src/app/interface/Cliente';
 
 @Component({
@@ -15,9 +12,6 @@ export class ClienteComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder) {
-
-
-
     this.formularioCliente = this.fb.group({
       nome: [{ value: '', disabled: true }, Validators.required],
       cnpj: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(14) ,Validators.pattern(/^\d{14}$/)]],
@@ -26,8 +20,6 @@ export class ClienteComponent implements OnInit {
       ativo: [{ value: '', disabled: true }, Validators.required],
       emailUsuarioMaster: [{ value: '', disabled: true }, [Validators.required, Validators.email]]
     })
-
-
   }
 
   @ViewChild('nomeInput') nomeInput!: ElementRef;
@@ -138,7 +130,6 @@ export class ClienteComponent implements OnInit {
       return !this.formularioCliente.valid; // Desabilita se o formulário é inválido
     }
     return true
-
   }
 
   naoPodeCancelarCliente(): boolean {
@@ -152,9 +143,6 @@ export class ClienteComponent implements OnInit {
       alert('Somente números são permitidos.');
     }
   }
-
-
-
 
 
 
@@ -179,8 +167,6 @@ export class ClienteComponent implements OnInit {
       { id: 1, nome: 'fortes', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: false, ativo: true },
       { id: 1, nome: 'marphe', cnpj: '11111111111111' , nomeUsuarioMaster: 'Jackson', emailUsuarioMaster: 'teste@gmail', isCoordenadorUsuarioMaster: true, ativo: true }
    ]
-
-
    console.log(this.clientes)
 
   }
