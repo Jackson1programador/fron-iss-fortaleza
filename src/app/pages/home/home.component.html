@@ -135,6 +135,20 @@
   </div>
 </div>
 
+<div *ngIf="modalAbertoDoQueNaoPodeAgendar" class="modal-overlay">
+  <div class="modal-container">
+    <h2 class="titulo-modal-encerramento titulo-erro">{{ 'A empresa está com a situação ' + situacaoEmpresaAgendada + ' por isso não po ser agendada'}} </h2>
+
+    <p class="margin-bottom"><strong class="strong">Competência:</strong> {{ competenciaSelecionada }}</p>
+    <p class="margin-bottom"><strong class="strong">Empresa:</strong> {{ nomeEmpresaParaAgendamento }}</p>
+    <p class="margin-bottom"><strong class="strong">CNPJ:</strong> {{ cnpjEmpresaParaAgendamento }}</p>
+
+    <div class="modal-buttons">
+      <button class="btn-cancelar" (click)="fecharModalDoQueNaoPodeAgendar()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 
 
 

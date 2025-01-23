@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   public modalAberto: boolean = false;
   public modalAbertoDoQueNaoPodeEncerrar: boolean = false;
   public modalAgendamento: boolean = false;
+  public modalAbertoDoQueNaoPodeAgendar: boolean = false;
 
   competencias = [
     { valor: '01/2024', texto: '01/2024' },
@@ -35,6 +36,7 @@ export class HomeComponent implements OnInit {
   idEmpresaParaAgendamento: number = 0;
   nomeEmpresaParaAgendamento: string = "";
   cnpjEmpresaParaAgendamento: string = "";
+  situacaoEmpresaAgendada: string = "";
   dataParaAgendamento: string = "";
   horaParaAgendamento: string = "";
 
@@ -124,11 +126,21 @@ export class HomeComponent implements OnInit {
   }
 
   abrirModalAgendamento(empresa: any) {
-    this.modalAgendamento = true
     this.idEmpresaParaAgendamento = empresa.id
     this.cnpjEmpresaParaAgendamento = empresa.cnpj
     this.nomeEmpresaParaAgendamento = empresa.nome
+    this.situacaoEmpresaAgendada = empresa.situacao
+    if(empresa.situacao == "pendente" || empresa.situacao == "erro"){
+      this.modalAgendamento = true;
+    } else {
+      this.modalAbertoDoQueNaoPodeAgendar = true
+    }
   }
+
+  fecharModalDoQueNaoPodeAgendar() {
+    this.modalAbertoDoQueNaoPodeAgendar = false
+  }
+
 
   fecharModalAgendamento() {
     this.modalAgendamento = false
