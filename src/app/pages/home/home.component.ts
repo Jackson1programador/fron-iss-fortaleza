@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, NgModule } from '@angular/core';
 import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
 import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
 
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   public showContainerSituacao: boolean = false;
   public modalAberto: boolean = false;
   public modalAbertoDoQueNaoPodeEncerrar: boolean = false;
+  public modalAgendamento: boolean = false;
 
   competencias = [
     { valor: '01/2024', texto: '01/2024' },
@@ -26,9 +27,17 @@ export class HomeComponent implements OnInit {
     { valor: '03/2024', texto: '03/2024' }
   ];
 
+
   nomeEmpresa: string = "";
   cnpjEmpresa: string = "";
   situacaoEmpresa: string = "";
+
+  idEmpresaParaAgendamento: number = 0;
+  nomeEmpresaParaAgendamento: string = "";
+  cnpjEmpresaParaAgendamento: string = "";
+  dataParaAgendamento: string = "";
+  horaParaAgendamento: string = "";
+
 
   // Variável para armazenar a competência selecionada
   competenciaSelecionada: string = '';
@@ -114,6 +123,17 @@ export class HomeComponent implements OnInit {
     this.modalAbertoDoQueNaoPodeEncerrar = false
   }
 
+  abrirModalAgendamento(empresa: any) {
+    this.modalAgendamento = true
+    this.idEmpresaParaAgendamento = empresa.id
+    this.cnpjEmpresaParaAgendamento = empresa.cnpj
+    this.nomeEmpresaParaAgendamento = empresa.nome
+  }
+
+  fecharModalAgendamento() {
+    this.modalAgendamento = false
+  }
+
   encerrar() {
     // Lógica para encerrar
     alert('Encerramento iniciado!');
@@ -123,6 +143,43 @@ export class HomeComponent implements OnInit {
   editarEmpresa(empresa: any) {
     console.log(empresa)
      // Lógica para editar
+  }
+
+  agendarEmpresa() {
+
+    // Verifica se a data e a hora foram preenchidas
+    if (!this.dataParaAgendamento || !this.horaParaAgendamento) {
+      alert('Por favor, selecione uma data e hora para o agendamento.');
+      return; // Interrompe o agendamento
+    }
+
+    const dataAtual = new Date();
+
+    // Combina a data e a hora selecionadas para criar um objeto Date
+    const dataAgendada = new Date(this.dataParaAgendamento + 'T' + this.horaParaAgendamento);
+
+    if (dataAgendada <= dataAtual) {
+      alert('A data e hora selecionadas não podem ser menores ou iguais à data e hora atual.');
+      return; // Impede o agendamento se a data/hora for inválida
+    }
+
+    alert(
+      'Empresa ' + this.nomeEmpresaParaAgendamento +
+      ' CNPJ ' + this.cnpjEmpresaParaAgendamento +
+      ' competência ' + this.competenciaSelecionada +
+      ' foi agendada para a data ' + this.dataParaAgendamento +
+      ' na hora ' + this.horaParaAgendamento)
+
+    console.log(
+      'Empresa ' + this.nomeEmpresaParaAgendamento +
+      ' CNPJ ' + this.cnpjEmpresaParaAgendamento +
+      ' competência ' + this.competenciaSelecionada +
+      ' foi agendada para a data ' + this.dataParaAgendamento +
+      ' na hora ' + this.horaParaAgendamento
+    );
+    this.dataParaAgendamento = ""
+    this.horaParaAgendamento = ""
+    this.fecharModalAgendamento()
   }
 
   ngOnInit(): void {

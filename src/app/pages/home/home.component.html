@@ -38,6 +38,7 @@
           <th>Nome</th>
           <th>Enviar</th>
           <th>Editar</th>
+          <th>Agendar</th>
           <th>Situação</th>
           <th>Email</th>
           <th>Guia</th>
@@ -51,6 +52,7 @@
           <td> {{empresa.nome}}</td>
           <td> <button (click)="abrirModal(empresa)" mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>send</mat-icon></button></td>
           <td> <button (click)="editarEmpresa(empresa)"mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>edit</mat-icon></button></td>
+          <td> <button (click)="abrirModalAgendamento(empresa)"mat-icon-button aria-label="Ícone de exemplo" class="button-icon"><mat-icon>calendar_month</mat-icon></button></td>
           <td> <button [attr.data-status]="empresa.situacao" >{{empresa.situacao}}</button></td>
           <td> <button [attr.data-status]="empresa.email">{{empresa.email}}</button></td>
           <td> <button [attr.data-status]="empresa.guia">{{empresa.guia}}</button></td>
@@ -112,6 +114,26 @@
   </div>
 </div>
 
+<!-- Modal container para iniciar agendamento -->
+<div *ngIf="modalAgendamento" id="scheduleModal" class="modal-overlay">
+  <div class="modal-container">
+    <h2 class="titulo-modal-encerramento">Agendar Empresa</h2>
+    <p class="margin-bottom"><strong class="strong">Competência:</strong> {{ competenciaSelecionada }}</p>
+    <p class="margin-bottom"><strong class="strong">Empresa:</strong> {{ nomeEmpresaParaAgendamento }}</p>
+    <p class="margin-bottom"><strong class="strong">CNPJ:</strong> {{ cnpjEmpresaParaAgendamento }}</p>
+    <form id="scheduleForm">
+      <label for="date"><strong class="strong">Escolha uma data: </strong></label>
+      <input type="date" id="date" name="date" required [(ngModel)]="dataParaAgendamento">
+      <p></p>
+      <label for="time"><strong class="strong">Escolha uma hora: </strong></label>
+      <input type="time" id="time" name="time" required [(ngModel)]="horaParaAgendamento">
+      <div class="modal-buttons">
+        <button class="btn-cancelar" type="button" (click)="fecharModalAgendamento()">Cancelar</button>
+        <button class="btn-encerrar" type="submit" (click)="agendarEmpresa()">Agendar</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 
 
