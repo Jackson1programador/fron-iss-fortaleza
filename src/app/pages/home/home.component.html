@@ -11,7 +11,7 @@
       <div>
         <label class="label-select" for="competencias"></label>
         <div class="custom-select">
-          <select id="competencias" name="competencias" [(ngModel)]="competenciaSelecionada">
+          <select id="competencias" name="competencias" [(ngModel)]="competenciaSelecionada" (ngModelChange)="selecaoDeCompetencia($event)">
             <!-- Use *ngFor para iterar sobre as competências -->
             <option *ngFor="let competencia of competencias" [value]="competencia.valor">
               {{ competencia.texto }}

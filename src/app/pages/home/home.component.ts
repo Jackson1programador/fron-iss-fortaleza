@@ -1,3 +1,4 @@
+import { Competencia } from './../../interface/Competencia';
 import { Component, HostListener, OnInit, NgModule } from '@angular/core';
 import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
 import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
@@ -14,6 +15,12 @@ export class HomeComponent implements OnInit {
   public empresasFront: EmpresaParaHome[] = [];
   public empresas: EmpresaParaHome[] = [];
   public empresasCheckboxMarcada: EmpresaParaHome[] = [];
+  public competencia: Competencia = {
+    id: 0,
+    competencia: '',
+    cliente: '',
+    empresas: []
+  };
 
   public showContainerAtividade: boolean = false;
   public showContainerSituacao: boolean = false;
@@ -22,12 +29,7 @@ export class HomeComponent implements OnInit {
   public modalAgendamento: boolean = false;
   public modalAbertoDoQueNaoPodeAgendar: boolean = false;
 
-  competencias = [
-    { valor: '01/2024', texto: '01/2024' },
-    { valor: '02/2024', texto: '02/2024' },
-    { valor: '03/2024', texto: '03/2024' }
-  ];
-
+  competencias: { valor: string; texto: string }[] = [];
 
   nomeEmpresa: string = "";
   cnpjEmpresa: string = "";
@@ -40,13 +42,12 @@ export class HomeComponent implements OnInit {
   dataParaAgendamento: string = "";
   horaParaAgendamento: string = "";
 
-
   // Variável para armazenar a competência selecionada
   competenciaSelecionada: string = '';
 
 
 
-  situacoes: string[] = ['sucesso', 'pendente', 'erro', 'processando'];
+  situacoes: string[] = ['sucesso', 'pendente', 'erro', 'processando', 'agendamento'];
   situacoesSelecionadas: string[] = [...this.situacoes];
 
   searchTerm: string = '';
@@ -194,35 +195,74 @@ export class HomeComponent implements OnInit {
     this.fecharModalAgendamento()
   }
 
+  gerarCompetencias(): string[] {
+    const hoje = new Date(); // Data atual
+    const competencias: string[] = [];
+
+    // Começar do mês passado
+    let ano = hoje.getFullYear();
+    let mes = hoje.getMonth(); // Janeiro = 0, então mês atual - 1 já é o mês passado
+
+    // Gerar as 12 competências
+    for (let i = 0; i < 12; i++) {
+      if (mes === 0) { // Caso seja Janeiro, retroceder para Dezembro do ano anterior
+        mes = 12;
+        ano--;
+      }
+      const competencia = `${mes.toString().padStart(2, '0')}/${ano}`;
+      competencias.push(competencia);
+      this.competencias.push({ valor: competencia, texto: competencia });
+      mes--; // Retroceder um mês
+    }
+    return competencias;
+  }
+
+  selecaoDeCompetencia(valor: string): void {
+    console.log("Competência selecionada:", valor);
+    console.log(valor);
+    console.log(this.competencia.competencia);
+    // Aqui você pode adicionar qualquer lógica necessária com o valor selecionado
+    if (this.competencia.competencia == valor) {
+      this.empresas = this.competencia.empresas
+      this.empresasFront = this.empresas;
+      this.empresasCheckboxMarcada = this.empresas;
+    } else {
+      this.empresas = []
+      this.empresasFront = []
+      this.empresasCheckboxMarcada = []
+    }
+
+  }
+
+
+
+
   ngOnInit(): void {
 
-    this.competenciaSelecionada = this.competencias[this.competencias.length - 1].valor;
+   const empresasMokadas: EmpresaParaHome[] = [
+    { id: 1, cnpj: "11111111111111", nome: "fulando de tal", situacao: "sucesso", email: "sucesso", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" },
+    { id: 2, cnpj: "123123123123", nome: "toinaha variedade", situacao: "processando", email: "processando", guia: "processando", encerramento: "sucesso", aceites: "sucesso" },
+    { id: 3, cnpj: "123123123123", nome: "aviao de tal", situacao: "erro", email: "erro", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" },
+    { id: 4, cnpj: "123123123123", nome: "casa de tal", situacao: "agendamento", email: "pendente", guia: "pendente", encerramento: "pendente", aceites: "pendente" },
+    { id: 5, cnpj: "123123123123", nome: "zica de tal", situacao: "sucesso", email: "não processa", guia: "não processa", encerramento: "sucesso", aceites: "sucesso" },
+    { id: 6, cnpj: "123123123123", nome: "fulando de tal", situacao: "sucesso", email: "sucesso", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" },
+    { id: 7, cnpj: "123123123123", nome: "toinaha variedade", situacao: "processando", email: "processando", guia: "processando", encerramento: "sucesso", aceites: "sucesso" },
+    { id: 8, cnpj: "123123123123", nome: "aviao de tal", situacao: "erro", email: "erro", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" },
+    { id: 9, cnpj: "123123123123", nome: "casa de tal", situacao: "pendente", email: "pendente", guia: "pendente", encerramento: "pendente", aceites: "pendente" },
+    { id: 10, cnpj: "123123123123", nome: "zica de tal", situacao: "sucesso", email: "não processa", guia: "não processa", encerramento: "sucesso", aceites: "sucesso" }
+  ];
 
+  this.competencia = {
+      id: 1,
+      competencia: "12/2024",
+      cliente: "Formma Contabil",
+      empresas: empresasMokadas
+    },
 
-    let empresa1: EmpresaParaHome = { id: 1, cnpj: "11111111111111", nome: "fulando de tal", situacao: "sucesso", email: "sucesso", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" };
-    let empresa2: EmpresaParaHome = { id: 2, cnpj: "123123123123", nome: "toinaha variedade", situacao: "processando", email: "processando", guia: "processando", encerramento: "sucesso", aceites: "sucesso" };
-    let empresa3: EmpresaParaHome = { id: 3, cnpj: "123123123123", nome: "aviao de tal", situacao: "erro", email: "erro", guia: "sucesso", encerramento: "sucesso", aceites: "sucesso" };
-    let empresa4: EmpresaParaHome = { id: 4, cnpj: "123123123123", nome: "casa de tal", situacao: "pendente", email: "pendente", guia: "pendente", encerramento: "pendente", aceites: "pendente" };
-    let empresa5: EmpresaParaHome = { id: 5, cnpj: "123123123123", nome: "zica de tal", situacao: "sucesso", email: "não processa", guia: "não processa", encerramento: "sucesso", aceites: "sucesso" };
-    let empresa6: EmpresaParaHome = {id: 6, cnpj: "123123123123", nome: "fulando de tal",  situacao: "sucesso", email: "sucesso", guia: "sucesso", encerramento: "sucesso",aceites: "sucesso" }
-    let empresa7: EmpresaParaHome = {id: 7, cnpj: "123123123123", nome: "toinaha variedade",  situacao: "processando", email: "processando", guia: "processando", encerramento: "sucesso",aceites: "sucesso" }
-    let empresa8: EmpresaParaHome = {id: 8, cnpj: "123123123123", nome: "aviao de tal",  situacao: "erro", email: "erro", guia: "sucesso", encerramento: "sucesso",aceites: "sucesso" }
-    let empresa9: EmpresaParaHome = {id: 9, cnpj: "123123123123", nome: "casa de tal",  situacao: "pendente", email: "pendente", guia: "pendente", encerramento: "pendente",aceites: "pendente" }
-    let empresa10: EmpresaParaHome = {id:10, cnpj: "123123123123", nome: "zica de tal",  situacao: "sucesso", email: "não processa", guia: "não processa", encerramento: "sucesso",aceites: "sucesso" }
+    this.gerarCompetencias();
+    this.competenciaSelecionada = this.competencias[0].valor;
+    this.selecaoDeCompetencia(this.competenciaSelecionada)
 
-    this.empresas.push(empresa1);
-    this.empresas.push(empresa2);
-    this.empresas.push(empresa3);
-    this.empresas.push(empresa4);
-    this.empresas.push(empresa5);
-    this.empresas.push(empresa6);
-    this.empresas.push(empresa7);
-    this.empresas.push(empresa8);
-    this.empresas.push(empresa9);
-    this.empresas.push(empresa10);
-
-    this.empresasFront = this.empresas;
-    this.empresasCheckboxMarcada = this.empresas;
 
     console.log(this.empresas)
     this.sharedService.changeData(this.empresas);
