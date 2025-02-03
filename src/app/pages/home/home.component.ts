@@ -2,6 +2,8 @@ import { Competencia } from './../../interface/Competencia';
 import { Component, HostListener, OnInit, NgModule } from '@angular/core';
 import { EmpresaParaHome } from 'src/app/interface/EmpresaParaHome';
 import { SharedService } from 'src/app/service/shared.service';  // Importe o serviço
+import { Observable, of, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +36,7 @@ export class HomeComponent implements OnInit {
   nomeEmpresa: string = "";
   cnpjEmpresa: string = "";
   situacaoEmpresa: string = "";
+  idEmpresa: number = 0;
 
   idEmpresaParaAgendamento: number = 0;
   nomeEmpresaParaAgendamento: string = "";
@@ -108,6 +111,7 @@ export class HomeComponent implements OnInit {
   }
 
   abrirModal(empresa: any) {
+    this.idEmpresa = empresa.id
     this.nomeEmpresa = empresa.nome
     this.cnpjEmpresa = empresa.cnpj
     this.situacaoEmpresa = empresa.situacao
@@ -148,9 +152,60 @@ export class HomeComponent implements OnInit {
   }
 
   encerrar() {
-    // Lógica para encerrar
-    alert('Encerramento iniciado!');
-    this.fecharModal();
+    this.simularRequisicaoBackend().subscribe({
+      next: (res) => {
+        alert(res + ' ID: ' + this.idEmpresa + 'nome da empresa: ' + this.nomeEmpresa); // Exibe "OK, sucesso" no alerta
+        this.fecharModal();
+
+        this.empresas = this.empresas.map(empresa => {
+        if (empresa.id === this.idEmpresa) {
+          return {
+            ...empresa, // Mantém os demais atributos
+            situacao: "processando",
+            email: "processando",
+            guia: "processando",
+            encerramento: "processando",
+            aceites: "processando"
+          };
+        }
+        return empresa; // Retorna a empresa sem alterações se o ID não for correspondente
+      });
+
+      this.empresasFront = this.empresasFront.map(empresa => {
+        if (empresa.id === this.idEmpresa) {
+          return {
+            ...empresa, // Mantém os demais atributos
+            situacao: "processando",
+            email: "processando",
+            guia: "processando",
+            encerramento: "processando",
+            aceites: "processando"
+          };
+        }
+        return empresa; // Retorna a empresa sem alterações se o ID não for correspondente
+      });
+
+      this.empresasCheckboxMarcada = this.empresasCheckboxMarcada.map(empresa => {
+        if (empresa.id === this.idEmpresa) {
+          return {
+            ...empresa, // Mantém os demais atributos
+            situacao: "processando",
+            email: "processando",
+            guia: "processando",
+            encerramento: "processando",
+            aceites: "processando"
+          };
+        }
+        return empresa; // Retorna a empresa sem alterações se o ID não for correspondente
+      });
+
+
+      },
+      error: (err) => {
+        alert(err.message + ' ID: ' + this.idEmpresa + 'nome da empresa: ' + this.nomeEmpresa); // Exibe "Erro na requisição" no alerta
+        this.fecharModal();
+      }
+    });
   }
 
   editarEmpresa(empresa: any) {
@@ -232,6 +287,16 @@ export class HomeComponent implements OnInit {
       this.empresasCheckboxMarcada = []
     }
 
+  }
+
+  private simularRequisicaoBackend(): Observable<string> {
+    const sucesso = Math.random() > 0.5; // 50% de chance de sucesso ou erro
+
+    if (sucesso) {
+      return of('OK, sucesso').pipe(delay(1000)); // Simula um retorno de sucesso com 1s de delay
+    } else {
+      return throwError(() => new Error('Erro na requisição')).pipe(delay(1000)); // Simula um erro com delay
+    }
   }
 
 
